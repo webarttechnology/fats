@@ -28,6 +28,12 @@
 
   <link href="{{ baseUrl }}/assets/css/style.css" rel="stylesheet">
 
+<!-- Include jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.css">
+  <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.js"></script>
+
 </head>
 
 <body>
@@ -46,6 +52,12 @@
 
   <!-- Template Main JS File -->
   <script src="{{ baseUrl }}/assets/js/main.js"></script>
+
+  <script>
+  $(document).ready(function() {
+    $('.dataTable').DataTable();
+  });
+</script>
 
 </body>
 </html>

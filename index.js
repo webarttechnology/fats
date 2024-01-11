@@ -2,9 +2,12 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const path = require("path");
 const mongoose = require('mongoose');
+// const session = require('express-session');
+// const flash = require('connect-flash'); 
 const exphbs = require('express-handlebars'); // express handlebars
 const baseUrlMiddleware = require('./middleware/baseUrl'); // to declare baseUrl for assets
 // const checkAuthMiddleware = require('./middleware/checkAuthMiddleware');
+const handlebarsHelpers = require('./helpers/handlebars-helpers');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -13,6 +16,12 @@ const PORT = process.env.PORT || 3000;
 const hbs = require("hbs");
 
 app.use(bodyParser.json());
+// app.use(session({ 
+//     secret:'geeksforgeeks', 
+//     saveUninitialized: true, 
+//     resave: true
+// })); 
+// app.use(flash());
 
 // Connect to MongoDB
 mongoose.connect('mongodb://localhost/user_registration_db', { useNewUrlParser: true, useUnifiedTopology: true });
@@ -23,7 +32,14 @@ app.engine('hbs', exphbs.create({
     extname: 'hbs',
     defaultLayout: 'layout',
     layoutsDir: __dirname + '/views/commons/',
-    partialsDir: __dirname + '/views/commons/'
+    partialsDir: __dirname + '/views/commons/',
+    // helpers: handlebarsHelpers,
+    helpers: {
+        ...handlebarsHelpers, // Spread your custom helpers
+        addOne: function(index) {
+            return index + 1;
+        }
+    }
 }).engine);
 
 app.set('view engine', 'hbs');

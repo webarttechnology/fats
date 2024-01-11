@@ -1,4 +1,5 @@
 const Admin = require('../models/Admin');
+const User = require('../models/User');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto'); 
@@ -13,12 +14,13 @@ exports.renderLoginPage = (req, res) => {
     res.render('admin/login');
 };
 
-exports.adminDashboard = (req, res) => {
+exports.adminDashboard = async (req, res) => {
     res.render('admin/dashboard');
 };
 
-exports.userProfile = (req, res) => {
-    res.render('admin/user/profile');
+exports.userProfile = async (req, res) => {
+    const admin = await Admin.findOne();
+    res.render('admin/user/profile', { admin });
 };
 
 exports.adminLoginAction = async (req, res) => {
@@ -48,8 +50,11 @@ exports.adminLoginAction = async (req, res) => {
             // Store the token securely on the client side
             res.cookie('authToken', token);
 
-            // Redirect to the dashboard upon successful login
-            res.redirect('../dashboard');
+            // // Redirect to the dashboard upon successful login
+            // res.redirect('../dashboard?users=' + JSON.stringify(allUsers));
+
+            // Render the dashboard and pass the list of users
+            res.render('admin/dashboard');
        }
        catch (error) {
         console.error(error);
