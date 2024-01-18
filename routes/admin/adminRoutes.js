@@ -14,6 +14,8 @@ router.post('/login/action', adminFrontendController.adminLoginAction);
 
 router.get('/driver/lists', driverManageController.driverLists);
 router.get('/driver/delete/:userId', driverManageController.deleteDriver);
+router.get('/driver/add/page', driverManageController.addPage);
+router.post('/driver/save', driverManageController.saveDriver);
 
 // Redirect root to the login
 router.get('/', (req, res) => {
