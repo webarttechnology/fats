@@ -48,7 +48,7 @@ exports.saveDriver = async (req, res) => {
         await newUser.save();
     
         const successMessage = 'User registered successfully';
-        return res.status(201).render('admin/driver/add', { successMessage });
+        return res.status(200).render('admin/driver/add', { successMessage });
       } catch (error) {
         console.error(error);
         if (error.name === 'ValidationError') {
@@ -62,3 +62,76 @@ exports.saveDriver = async (req, res) => {
         res.status(500).json({ message: 'Internal server error' });
       }
 }
+
+exports.updatePage = async (req, res) => {
+   const userId = req.params.userId;
+   const user = await User.findOne({ _id: userId }).lean();
+
+   // Check if the user is found
+   if (!user) {
+    // Handle the case where the user is not found
+    return res.status(404).render('error', { message: 'User not found' });
+   }
+
+   res.render('admin/driver/update', { user });
+};
+
+exports.updateAction = async (req, res) => {
+  try {
+    const userId = req.params.userId;
+    await User.findByIdAndUpdate(userId, req.body);
+    res.redirect('../../lists');
+  } catch (error) {
+    console.error(error);
+    res.status(500).render('error', { message: 'Internal server error' });
+  }
+}
+
+exports.changePassword = async (req, res) => {
+  const userId = req.params.userId;
+  const user = await User.findOne({ _id: userId }).lean();
+
+  if (!user) {
+   return res.status(404).render('error', { message: 'User not found' });
+  }
+
+  res.render('admin/driver/change_password', { userId });
+};
+
+exports.updatePasswordAction = async (req, res) => {
+  try {
+    const userId = req.params.userId;
+    const { old_password, new_password, confirm_password } = req.body;
+
+    // Find the user by ID
+    const user = await User.findById(userId);
+    const driver = await User.find({ role: 'driver' }).lean();
+
+    if (!user) {
+      return res.status(404).render('error', { message: 'User not found' });
+    }
+
+    const isPasswordValid = await bcrypt.compare(old_password, user.password);
+    if (!isPasswordValid) {
+      const errorMessage = 'Old password is incorrect';
+      return res.status(400).render('admin/driver/change_password', { errorMessage: errorMessage, userId: userId, });
+    }
+
+    if (new_password !== confirm_password) {
+      const errorMessage = 'New password and confirm password do not match';
+      return res.status(400).render('admin/driver/change_password', { errorMessage: errorMessage, userId: userId, });
+    }
+
+    const hashedPassword = await bcrypt.hash(new_password, 10);
+    await User.findByIdAndUpdate(userId, { password: hashedPassword });
+
+    const successMessage = 'Password updated successfully';
+    return res.status(200).render('admin/driver/list', { successMessage, user:driver });
+    // return res.status(200).redirect('/admin/driver/list', { successMessage });
+  } catch (error) {
+    console.error(error);
+
+    // Handle errors, e.g., render an error view
+    res.status(500).render('error', { message: 'Internal server error' });
+  }
+};

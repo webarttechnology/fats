@@ -12,10 +12,24 @@ router.get('/user/profile', adminFrontendController.userProfile);
 router.get('/logout', adminFrontendController.adminLogout);
 router.post('/login/action', adminFrontendController.adminLoginAction);
 
+/**
+ * Admin Profile 
+*/
+
+router.post('/edit/profile', adminFrontendController.adminEditProfileAction);
+
+/**
+ * Driver Listing & CRUD Routes
+*/
+
 router.get('/driver/lists', driverManageController.driverLists);
 router.get('/driver/delete/:userId', driverManageController.deleteDriver);
 router.get('/driver/add/page', driverManageController.addPage);
 router.post('/driver/save', driverManageController.saveDriver);
+router.get('/driver/update/page/:userId', driverManageController.updatePage);
+router.post('/driver/update/action/:userId', driverManageController.updateAction);
+router.get('/driver/change/password/page/:userId', driverManageController.changePassword);
+router.post('/driver/change/password/action/:userId', driverManageController.updatePasswordAction);
 
 // Redirect root to the login
 router.get('/', (req, res) => {

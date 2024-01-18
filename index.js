@@ -2,8 +2,6 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const path = require("path");
 const mongoose = require('mongoose');
-// const session = require('express-session');
-// const flash = require('connect-flash'); 
 const exphbs = require('express-handlebars'); // express handlebars
 const baseUrlMiddleware = require('./middleware/baseUrl'); // to declare baseUrl for assets
 // const checkAuthMiddleware = require('./middleware/checkAuthMiddleware');
@@ -16,12 +14,6 @@ const PORT = process.env.PORT || 3000;
 const hbs = require("hbs");
 
 app.use(bodyParser.json());
-// app.use(session({ 
-//     secret:'geeksforgeeks', 
-//     saveUninitialized: true, 
-//     resave: true
-// })); 
-// app.use(flash());
 
 // Connect to MongoDB
 mongoose.connect('mongodb://localhost/user_registration_db', { useNewUrlParser: true, useUnifiedTopology: true });

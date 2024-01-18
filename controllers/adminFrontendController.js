@@ -19,7 +19,7 @@ exports.adminDashboard = async (req, res) => {
 };
 
 exports.userProfile = async (req, res) => {
-    const admin = await Admin.findOne();
+    const admin = await Admin.findOne().lean();
     res.render('admin/user/profile', { admin });
 };
 
@@ -84,3 +84,25 @@ const generateRandomString = (length) => {
       .toString('hex') // convert to hexadecimal format
       .slice(0, length); // return required number of characters
 };  
+
+exports.adminEditProfileAction = async (req, res) => {
+    try {
+        const { name, phone, email } = req.body;
+        const admin = await Admin.findOne().lean();
+    
+        const updatedAdmin = await Admin.findOneAndUpdate(
+            { name, phone, email }
+          );
+    
+        if (!updatedAdmin) {
+          return res.status(404).render('error', { message: 'Admin not found' });
+        }
+    
+        return res.render('admin/user/profile', { successMessage: 'Profile updated successfully', admin:admin });
+      } catch (error) {
+        console.error(error);
+    
+        // Handle errors, e.g., render an error view
+        return res.status(500).render('error', { message: 'Internal server error' });
+      }
+}

@@ -5,6 +5,15 @@
     <div class="pagetitle">
 
     <h2>All Drivers</h2>
+
+    {{#if errorMessage}}
+        <p class="alert alert-danger alert-dismissible fade show">{{ errorMessage }}</p>
+    {{/if}}
+
+    {{#if successMessage}}
+        <p class="alert alert-success alert-dismissible">{{ successMessage }}</p>
+    {{/if}}
+
     <div class="container">
 
     <div class="m-2 text-end"><a href="{{ baseUrl }}/admin/driver/add/page" class="btn btn-primary btn-sm">Add New</a></div>
@@ -26,8 +35,9 @@
                         <td>{{ email }}</td>
                         <td>{{ phone }}</td>
                         <td>
-                            <a href="#"><button class="btn btn-primary btn-sm">Edit</button></a>
-                            <a href="{{ baseUrl }}/admin/driver/delete/{{ _id }}" onclick="confirm('Are You Sure, You Want To delete this User?')"><button class="btn btn-danger btn-sm">Delete</button></a>
+                            <a href="{{ baseUrl }}/admin/driver/update/page/{{ _id }}"><button class="btn btn-primary btn-sm">Edit</button></a>
+                            <a href="{{ baseUrl }}/admin/driver/change/password/page/{{ _id }}"><button class="btn btn-dark btn-sm">Change Password</button></a>
+                            <a href="{{ baseUrl }}/admin/driver/delete/{{ _id }}" onclick="return confirm('Are You Sure, You Want To delete this User?')"><button class="btn btn-danger btn-sm">Delete</button></a>
                         </td>
                     </tr>
                   {{/each}}
