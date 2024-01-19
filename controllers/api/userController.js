@@ -50,3 +50,18 @@ exports.existingUser = async (req, res) => {
         res.status(500).json({ message: 'Internal server error' });
       }
 };
+
+/**
+ * All Drivers View 
+*/
+
+exports.existingDrivers = async (req, res) => {
+  try {
+      // Exclude password, __v0, role fields from the response
+      const drivers = await User.find({ role: "driver" }).select('-password -__v -role'); 
+      res.status(200).json(drivers);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Internal server error' });
+    }
+};

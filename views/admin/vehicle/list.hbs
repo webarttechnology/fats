@@ -1,0 +1,47 @@
+{{>sidebar}}
+
+<main id="main" class="main">
+
+    <div class="pagetitle">
+
+    <h2>All Vehicle</h2>
+
+    {{#if errorMessage}}
+        <p class="alert alert-danger alert-dismissible fade show">{{ errorMessage }}</p>
+    {{/if}}
+
+    {{#if successMessage}}
+        <p class="alert alert-success alert-dismissible">{{ successMessage }}</p>
+    {{/if}}
+
+    <div class="container">
+
+    <div class="m-2 text-end"><a href="#" class="btn btn-primary btn-sm">Add New</a></div>
+    <table class="dataTable">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Phone</th>
+                    <th scope="col">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    {{#each vehicles}}
+                    <tr>
+                        <th scope="row">{{addOne @index}}</th>
+                        <td>{{ name }}</td>
+                        <td>{{ email }}</td>
+                        <td>{{ phone }}</td>
+                        <td>
+                            <a href="#"><button class="btn btn-primary btn-sm">Edit</button></a>
+                            <a href="#" onclick="return confirm('Are You Sure, You Want To delete this User?')"><button class="btn btn-danger btn-sm">Delete</button></a>
+                        </td>
+                    </tr>
+                  {{/each}}
+                </tbody>
+              </table>
+              </div>
+</div>
+</main>

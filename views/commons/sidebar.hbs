@@ -4,7 +4,7 @@
     <div class="d-flex align-items-center justify-content-between">
       <a href="{{ baseUrl }}/admin/home" class="logo d-flex align-items-center">
         <img src="{{ baseUrl }}/assets/img/logo.png" alt="">
-        <span class="d-none d-lg-block">NiceAdmin</span>
+        <span class="d-none d-lg-block">Fats</span>
       </a>
       <i class="bi bi-list toggle-sidebar-btn"></i>
     </div><!-- End Logo -->
@@ -246,11 +246,19 @@
           <i class="bi bi-person"></i>
           <span>Driver Lists</span>
         </a>
-        <a class="nav-link collapsed" href="#">
+        <a class="nav-link collapsed" href="{{ baseUrl }}/admin/fire-fighter/lists">
           <i class="bi bi-person"></i>
           <span>Fire Fighter Lists</span>
         </a>
       </li><!-- End Profile Page Nav -->
+
+      <li class="nav-heading">Vehicle</li>
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="{{ baseUrl }}/admin/vehicle/lists">
+          <i class="bi bi-person"></i>
+          <span>Vehicle Lists</span>
+        </a>
+      </li>
 
     </ul>
 
