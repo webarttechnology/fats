@@ -50,6 +50,11 @@ router.get('/fire-fighter/delete/:userId', fireFighterManageController.deleteFir
 */
 
 router.get('/vehicle/lists', vehicleManageController.vehicleLists);
+router.get('/vehicle/add/page', vehicleManageController.vehicleAddPage);
+router.post('/vehicle/add/action', vehicleManageController.vehicleAddAction);
+router.get('/vehicle/update/page/:vehicleId', vehicleManageController.vehicleUpdatePage);
+router.post('/vehicle/update/action/:vehicleId', vehicleManageController.vehicleUpdateAction);
+router.get('/vehicle/delete/:vehicleId', vehicleManageController.deleteVehicle);
 
 // Redirect root to the login
 router.get('/', (req, res) => {

@@ -4,7 +4,7 @@
 
     <div class="pagetitle">
 
-    <h2>All Vehicle</h2>
+    <h2>All Vehicles</h2>
 
     {{#if errorMessage}}
         <p class="alert alert-danger alert-dismissible fade show">{{ errorMessage }}</p>
@@ -16,14 +16,14 @@
 
     <div class="container">
 
-    <div class="m-2 text-end"><a href="#" class="btn btn-primary btn-sm">Add New</a></div>
+    <div class="m-2 text-end"><a href="{{ baseUrl }}/admin/vehicle/add/page" class="btn btn-primary btn-sm">Add New</a></div>
     <table class="dataTable">
                 <thead>
                   <tr>
                     <th scope="col">#</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">Phone</th>
+                    <th scope="col">Model Number</th>
+                    <th scope="col">Image</th>
+                    <th scope="col">Type</th>
                     <th scope="col">Action</th>
                   </tr>
                 </thead>
@@ -31,12 +31,14 @@
                     {{#each vehicles}}
                     <tr>
                         <th scope="row">{{addOne @index}}</th>
-                        <td>{{ name }}</td>
-                        <td>{{ email }}</td>
-                        <td>{{ phone }}</td>
+                        <td>{{ modelNo }}</td>
                         <td>
-                            <a href="#"><button class="btn btn-primary btn-sm">Edit</button></a>
-                            <a href="#" onclick="return confirm('Are You Sure, You Want To delete this User?')"><button class="btn btn-danger btn-sm">Delete</button></a>
+                          <img src="/uploads/{{ image }}" alt="" width="200px;">
+                        </td>
+                        <td>{{ type }}</td>
+                        <td>
+                            <a href="{{ baseUrl }}/admin/vehicle/update/page/{{ _id }}"><button class="btn btn-primary btn-sm">Edit</button></a>
+                            <a href="{{ baseUrl }}/admin/vehicle/delete/{{ _id }}" onclick="return confirm('Are You Sure, You Want To delete this Vehicle?')"><button class="btn btn-danger btn-sm">Delete</button></a>
                         </td>
                     </tr>
                   {{/each}}

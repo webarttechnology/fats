@@ -15,6 +15,9 @@ const hbs = require("hbs");
 
 app.use(bodyParser.json());
 
+// Serve static files from the 'public' directory
+app.use(express.static('public'));
+
 // Connect to MongoDB
 mongoose.connect('mongodb://localhost/user_registration_db', { useNewUrlParser: true, useUnifiedTopology: true });
 mongoose.connection.on('error', console.error.bind(console, 'MongoDB connection error:'));
@@ -30,7 +33,10 @@ app.engine('hbs', exphbs.create({
         ...handlebarsHelpers, // Spread your custom helpers
         addOne: function(index) {
             return index + 1;
-        }
+        },
+        eq: function (a, b) {
+            return a === b;
+        },
     }
 }).engine);
 

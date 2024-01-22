@@ -1,0 +1,53 @@
+{{>sidebar}}
+
+
+<main id="main" class="main">
+
+<h3>Add New Vehicles</h3>
+
+<!-- Display error message if it exists -->
+{{#if errorMessage}}
+    <p class="alert alert-danger alert-dismissible fade show">{{ errorMessage }}</p>
+{{/if}}
+
+<!-- Display success message if it exists -->
+{{#if successMessage}}
+    <p class="alert alert-success alert-dismissible fade show">{{ successMessage }}</p>
+{{/if}}
+
+<div class="tab-pane p-3 border border-5" id="profile-change-password">
+        
+        <form action="{{ baseUrl }}/admin/vehicle/add/action" method="post" enctype="multipart/form-data">
+
+        <div class="row mb-3">
+            <label for="email" class="col-md-4 col-lg-3 col-form-label">Type *</label>
+            <div class="col-md-8 col-lg-9">
+                <select name="type" id="type" class="form-control" required>
+                     <option value="">Select</option>
+                     <option value="Truck">Truck</option>
+                     <option value="Ambulance">Ambulance</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <label for="modelNo" class="col-md-4 col-lg-3 col-form-label">Model Number *</label>
+            <div class="col-md-8 col-lg-9">
+            <input name="modelNo" type="text" class="form-control" placeholder="Enter Model Number" id="modelNo" required>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <label for="image" class="col-md-4 col-lg-3 col-form-label">Image *</label>
+            <div class="col-md-8 col-lg-9">
+            <input name="image" type="file" class="form-control" id="image" required>
+            </div>
+        </div>
+
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary">Add</button>
+        </div>
+        </form>
+
+</div>
+</main>
