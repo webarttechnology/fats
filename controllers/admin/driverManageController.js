@@ -44,7 +44,7 @@ exports.saveDriver = async (req, res) => {
         const userRole = "driver";
     
         // Create a new user
-        const newUser = new User({ name, username, email, phone, password: hashedPassword, role: userRole });
+        const newUser = new User({ name, username, email, phone, password: hashedPassword, role: userRole, battery:10 });
         await newUser.save();
     
         const successMessage = 'User registered successfully';

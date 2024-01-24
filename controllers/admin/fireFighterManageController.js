@@ -28,7 +28,7 @@ exports.fireFighterAddAction = async (req, res) => {
         const userRole = "fire_fighter";
     
         // Create a new user
-        const newUser = new User({ name, username, email, phone, password: hashedPassword, role: userRole });
+        const newUser = new User({ name, username, email, phone, password: hashedPassword, role: userRole, battery: 10 });
         await newUser.save();
     
         const successMessage = 'Fire Fighter registered successfully';
