@@ -8,6 +8,7 @@ const vehicleController = require('../../controllers/api/vehicleController');
 router.post('/register', userController.registerUser);
 router.get('/users', userController.existingUser);
 router.get('/drivers', userController.existingDrivers);
+router.get('/fire-fighters', userController.existingFirefighters);
 router.get('/vehicles', vehicleController.existingVehicles);
 router.get('/vehicles/:type', vehicleController.vehicleByType);
 

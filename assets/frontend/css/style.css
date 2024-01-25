@@ -1,0 +1,456 @@
+/*body{
+    margin: 0;
+    padding: 0;
+    font-family: 'Jost', sans-serif !important;
+    background: url(../images/background.jpg);
+    background-size: cover;
+    overflow-x: hidden;
+}*/
+.listBlock {
+}
+#sortable1, #sortable2, #sortable3 {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    padding: 5px;
+/*     border: 1px solid black; */
+    border-radius: 5px;
+}
+#sortable1 li, #sortable2 li, #sortable3 li {
+    color:black;
+    cursor: move;
+    margin-bottom: 26px;
+    font-size: 1.2em;
+    background: none;
+    border-radius: 5px;
+   	color: #fff
+}
+.droptrue img {
+	width: 100%;
+	object-fit: contain;
+	height: 100px;
+}
+.selected {
+    background:#e74 !important;
+}
+.hidden {
+    display:none !important;
+}
+ul {
+    list-style-type: none;
+}
+.search{
+   margin-top: 30px;
+   margin-left: 25px;
+   width: 200px;
+   padding-left: 10px;
+}
+.row{
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.d-none{
+    display: none;
+}
+.middileBox{
+	justify-content: space-between;
+    margin-bottom: 25px;
+}
+.text{
+    width: 90%;
+    margin: 100px auto;
+}
+.centerHome{
+	width: 50%;
+    border: 7px solid #65230e;
+    padding: 30px;
+    border-radius: 10px;
+    margin: auto;
+}
+.direcation{
+    
+}
+.centerHome img {
+	width: 100%;
+}
+.topBoxSection li{
+	margin-right: 15px;
+}
+.topBoxSection  #leftPanel .listBlock ul {
+    display: flex;
+}
+.topBoxSection  #leftPanel .listBlock ul li{
+    margin-right: 15px;
+}
+.topBoxSection #rghitPanel .listBlock ul {
+   display: flex;  
+}
+.userItem{
+    border: solid 2px #cf092c;
+    border-radius: 5px;
+    background: #fff;
+    padding: 3px;
+}
+.crdprof {
+    margin-bottom: 4px;
+}
+.cardbox .icon {
+    background: #cf092c;
+    color: #fff;
+    float: left;
+    width: 22px;
+    height: 25px;
+    text-align: center;
+    font-size: 11px;
+    line-height: 25px;
+    border-radius: 4px;
+    margin-right: 4px;
+}
+.crdprof h5 {
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #65230e;
+    margin: 5px 0;
+}
+.crdprof p {
+    font-size: 9px;
+    text-transform: uppercase;
+    font-weight: 400;
+    margin: 0;
+    color: #000;
+    margin-bottom: 5px;
+}
+.cardbox .clifebx {
+    border: solid 1px #cf092c;
+    padding: 0px 5px 0px;
+    height: auto;
+    border-radius: 5px;
+    display: block;
+}
+.cardbox .clifebx .clife {
+    width: 2px;
+    height: 10px;
+    background: #cf092c;
+    display: inline-block;
+    border-radius: 11px;
+    margin: 0;
+    padding: 0;
+    line-height: inherit;
+}
+.middileBoxT{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 3rem;
+    width: 88%;
+    margin: 3rem auto 0;
+}
+.reserve{
+    width: 44%;
+    background: #fff;
+    padding: 15px;
+    border: 2px solid #cf092c;
+}
+.reserve h4{
+   text-align: center; 
+}
+.rehave{
+    width: 44%;
+    background: #fff;
+    padding: 15px;
+    border: 2px solid #cf092c;
+}
+.rehave h4{
+    text-align: center;
+}
+.middileBoxT .row{
+    align-items: inherit;
+    justify-content: space-evenly;
+}
+.reserve .icon i {
+    color: #fff;
+}
+.reserve .icon{
+    background: green;
+}
+.reserve .droptrue{
+    display: flex;
+}
+.reserve .droptrue li {
+    display: inline-block;
+    margin: auto !important;
+}
+.rehave .droptrue{
+    display: flex;
+}
+.rehave .droptrue li {
+    display: inline-block;
+    margin: auto !important;
+}
+.centerBox{
+    width: 60%;
+}
+.topBoxSection{
+    width: 70%;
+    border: 2px dashed #65230e;
+    margin-bottom: 25px !important;
+    padding: 25px !important;
+        display: flex;
+}
+.leftSec{
+    width: 250px;
+    border: 2px dashed #65230e;
+}
+.rightSec{
+    /*justify-content: flex-end;
+    align-items: flex-end;
+    display: flex;*/
+    width: 250px;
+    border: 2px dashed #65230e;
+    padding: 25px !important;
+}
+.bottomSec{
+    margin-top: 25px;
+}
+.roofSect{
+    flex-direction: column;
+}
+.leftDirection{
+    margin: 0rem -12rem 0px 0px;
+    height: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.rightDirection{
+   margin: 0rem 0rem 0px -12rem;
+   height: 300px;
+   display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.staticDiv{
+    justify-content: space-between;
+}
+.headingSec{
+    display: flex;
+    justify-content: space-evenly;
+    margin: auto;
+}
+.startBtn{
+    border: none;
+    padding: 10px 30px;
+    font-size: 20px;
+    font-weight: 600;
+    background: #7bf106;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.endBtn{
+    border: none;
+    padding: 10px 30px;
+    font-size: 20px;
+    font-weight: 600;
+    background: #cb6b04;
+    border-radius: 5px;
+    color: #fff;
+    cursor: pointer;
+}
+#leftPanel{
+    padding: 0 25px;
+}
+.headinText h1{
+    margin-bottom: 5rem;
+    font-size: 40px;
+}
+.moveDrag{
+    color: #000;
+    margin: auto;
+    display: block;
+    text-align: center;
+    font-size: 30px;
+}
+
+
+/* ===== NEW FATS CSS START ======= */
+.mainScreen{
+    padding: 1rem 0;
+}
+.carListing{
+    border: 3px solid #355155;
+}
+.moveDrag{
+    display: none;
+}
+.carListing li ul li{
+    display: inline-block;
+    border-right: 3px solid #355155;
+    border-radius: 0 !important;
+    padding: 10px;
+    width: 130px;
+}
+.carListing li{
+    margin-bottom: 0 !important;
+}
+.carListing ul {
+    padding: 0 !important;
+    display: flex;
+    justify-content: center;
+}
+.userItem{
+    text-align: center;
+}
+.userItem i{
+    font-size: 30px;
+    color: #000;
+}
+.userItem h3{
+    color: #223436;
+    font-size: 16px;
+    /* border-bottom: 2px solid #355155; */
+    display: block;
+    width: 90%;
+    text-align: center;
+    margin: 0 auto 5px;
+    padding: 0px 0 3px 0px;
+}
+.userItem span{
+    font-size: 15px;
+    color: #dd1010;
+    font-weight: 700;
+}
+.carListing li ul li img {
+    
+}
+.carListing li ul li:last-child{
+    border-right: 0;
+}
+.marginBottom{
+    margin-bottom: 30px;
+}
+.fighterListing ul li ul li {
+    display: inline-block;
+        border: 0;
+}
+.fighterListing ul {
+    display: block;
+}
+.building img{
+        width: 100%;
+    height: 100%;
+}
+.building h4{
+    background: #355155;
+    color: #fff;
+    padding: 6px;
+    text-align: center;
+    font-size: 25px;
+}
+.secoundStep{
+    justify-content: space-between;
+}
+.secoundStep .leftside{
+    width: 40%;
+    border: 2px solid #355155;
+}
+.secoundStep .building{
+    width: 15%;
+    text-align: center;
+}
+.secoundStep .rightside{
+    width: 40%;
+    border: 2px solid #355155;
+}
+.secoundStep .leftside ul{
+    display: flex;
+    justify-content: center;
+}
+.carfeildList li ul{
+    flex-direction: column;
+}
+.carfeildList li{
+    padding: 0 10px !important;
+}
+.secoundStep .rightside ul {
+    display: flex;
+    justify-content: center;
+}
+.headdingRes{
+    background: #355155;
+    color: #fff;
+    padding: 6px;
+    text-align: center;
+    font-size: 25px;
+} 
+.carGareg{
+    width: 30%;
+}
+.therdStep{
+    justify-content: space-between;
+}
+.careserve li{
+    display: inline-block;
+    width: 48%;
+}
+.careserve li span{
+    display: block;
+    color: #fffefe;
+    background-color: #b75537;
+    text-align: center;
+    font-size: 15px;
+    padding: 5px 0;
+}
+.careserve{
+    background-color: #f7f4f4;
+    height: 300px;
+}
+.reserveFire{
+    height: 300px;
+     background-color: #f7f4f4;
+}
+.reserveFire li ul li {
+    width: 32%;
+    display: inline-block;
+}
+.fighterBattre span{
+    width: 2px;
+    background-color: #f3f3f3;
+    display: inline-block;
+    height: 10px;
+}
+.fighterBattre{
+    border: 1px solid #00d110;
+    background: #00d110;
+    padding: 3px 0px;
+    height: 12px;
+    display: flex;
+    justify-content: space-evenly;
+}
+.nameFighter{
+    font-size: 15px;
+    color: #dd1010;
+    font-weight: 700;
+    display: block;
+    padding: 5px 0;
+}
+
+
+.fighterBattred{
+    border: 1px solid #00d110;
+    background: #00d110;
+    padding: 3px 0px;
+    height: 12px;
+    display: flex;
+    justify-content: space-evenly;
+}
+.fighterBattred{
+    background-color: red;
+    border: 1px solid red;
+}
+.fighterBattred span{
+    width: 2px;
+    background-color: #f3f3f3;
+    display: inline-block;
+    height: 10px;
+}

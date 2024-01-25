@@ -43,10 +43,10 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Role is required'],
   },
-  // image: {
-  //   type: String,
-  //   required: false,
-  // },
+  image: {
+    type: String,
+    required: false,
+  },
   battery: {
     type: String,
     required: false,

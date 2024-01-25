@@ -50,10 +50,12 @@ app.use(express.urlencoded({ extended: true }));
 
 // Define routes
 const userApiRoutes = require('./routes/api/userRoutes');
+const frontendRoutes = require('./routes/frontend/frontRoutes');
 const adminApiRoutes = require('./routes/api/adminApiRoutes');
 const adminDisplayRoutes = require('./routes/admin/adminRoutes');
 
-app.use('/', userApiRoutes);
+app.use('/api/', userApiRoutes);
+app.use('/', frontendRoutes);
 app.use('/admin/api', adminApiRoutes);
 app.use('/admin', adminDisplayRoutes);
 

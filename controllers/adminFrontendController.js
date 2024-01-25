@@ -106,3 +106,7 @@ exports.adminEditProfileAction = async (req, res) => {
         return res.status(500).render('error', { message: 'Internal server error' });
       }
 }
+
+// exports.adminChangePasswordAction = async (req, res) => {
+//   console.log("Working...............");
+// }

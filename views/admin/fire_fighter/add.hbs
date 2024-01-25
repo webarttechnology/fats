@@ -17,7 +17,7 @@
 
 <div class="tab-pane p-3 border border-5" id="profile-change-password">
         <!-- Change Password Form -->
-        <form action="{{ baseUrl }}/admin/fire-fighter/add/action" method="post">
+        <form action="{{ baseUrl }}/admin/fire-fighter/add/action" method="post" enctype="multipart/form-data">
 
         <div class="row mb-3">
             <label for="name" class="col-md-4 col-lg-3 col-form-label">Name *</label>
@@ -54,6 +54,12 @@
             </div>
         </div>
 
+        <div class="row mb-3">
+            <label for="image" class="col-md-4 col-lg-3 col-form-label">Image</label>
+            <div class="col-md-8 col-lg-9">
+            <input name="image" type="file" class="form-control" id="image">
+            </div>
+        </div>
 
         <div class="text-center">
             <button type="submit" class="btn btn-primary">Add</button>

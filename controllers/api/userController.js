@@ -65,3 +65,29 @@ exports.existingDrivers = async (req, res) => {
       res.status(500).json({ message: 'Internal server error' });
     }
 };
+
+/**
+ * All Fire Fighters View 
+*/
+
+exports.existingFirefighters = async (req, res) => {
+  try {
+      // Exclude password, __v0, role fields from the response
+      const fire_fighter = await User.find({ role: "fire_fighter" }).select('-password -__v -role'); 
+
+      const fireFighterWithImagePath = fire_fighter.map(fighter => ({
+        _id: fighter._id,
+        name: fighter.name,
+        username: fighter.username,
+        email: fighter.email,
+        phone: fighter.phone,
+        battery: fighter.battery,
+        imagePath: `/uploads/fire_fighter/${fighter.image}`
+    }));
+
+      res.status(200).json(fireFighterWithImagePath);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Internal server error' });
+    }
+};

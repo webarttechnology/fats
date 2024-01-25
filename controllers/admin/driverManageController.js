@@ -1,12 +1,14 @@
 const User = require('../../models/User');
 const bcrypt = require('bcrypt');
+const multer = require('multer');
+const fs = require('fs');
+const path = require('path');
 
 exports.driverLists = async (req, res) => {
     const user = await User.find({ role: 'driver' }).lean();
-
-    // Reverse the order of the users
+    const successMessage = req.query.successMessage;
     const users = user.reverse();
-    res.render('admin/driver/list', { users });
+    res.render('admin/driver/list', { users, successMessage });
 };
 
 exports.deleteDriver = async (req, res) => {
@@ -29,10 +31,39 @@ exports.addPage = async (req, res) => {
     res.render('admin/driver/add');
 };
 
+// Set up multer storage
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, path.join(__dirname, '../../public/uploads/driver'));
+  },
+  filename: function (req, file, cb) {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    cb(null, file.fieldname + '-' + uniqueSuffix + path.extname(file.originalname));
+  }
+});
+
+// Set up multer instance
+const upload = multer({ storage: storage });
+const uploadMiddleware = upload.single('image');
+
+
 exports.saveDriver = async (req, res) => {
     try {
+      uploadMiddleware(req, res, async function (err) {
+        if (err instanceof multer.MulterError) {
+          // A Multer error occurred when uploading
+          return res.status(400).json({ message: 'Image upload failed' });
+        } else if (err) {
+          // An unknown error occurred
+          console.error(err);
+          return res.status(500).json({ message: 'Internal server error' });
+        }
+
         const { name, username, email, phone, password, role } = req.body;
     
+        // Retrieve the uploaded file information
+        const image = req.file;
+
         // Check if the user already exists
         const existingUser = await User.findOne({ email });
         if (existingUser) {
@@ -44,11 +75,12 @@ exports.saveDriver = async (req, res) => {
         const userRole = "driver";
     
         // Create a new user
-        const newUser = new User({ name, username, email, phone, password: hashedPassword, role: userRole, battery:10 });
+        const newUser = new User({ name, username, email, phone, password: hashedPassword, role: userRole, battery:10, image: image.filename });
         await newUser.save();
     
-        const successMessage = 'User registered successfully';
+        const successMessage = 'Driver added successfully';
         return res.status(200).render('admin/driver/add', { successMessage });
+        });
       } catch (error) {
         console.error(error);
         if (error.name === 'ValidationError') {
@@ -76,16 +108,67 @@ exports.updatePage = async (req, res) => {
    res.render('admin/driver/update', { user });
 };
 
+// exports.updateAction = async (req, res) => {
+//   try {
+//     const userId = req.params.userId;
+//     await User.findByIdAndUpdate(userId, req.body);
+//     res.redirect('../../lists');
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).render('error', { message: 'Internal server error' });
+//   }
+// }
+
+
 exports.updateAction = async (req, res) => {
   try {
-    const userId = req.params.userId;
-    await User.findByIdAndUpdate(userId, req.body);
-    res.redirect('../../lists');
+      const userId = req.params.userId;
+      const userList = await User.find({ role: 'driver' }).lean();
+      const users = userList.reverse();
+
+
+      uploadMiddleware(req, res, async function (err) {
+          if (err instanceof multer.MulterError) {
+              // A Multer error occurred when uploading
+              return res.status(400).json({ message: 'Image upload failed' });
+          } else if (err) {
+              // An unknown error occurred
+              console.error(err);
+              return res.status(500).json({ message: 'Internal server error' });
+          }
+
+          const { name, username, phone, email, battery, ...updateData } = req.body;
+          const user = await User.findById(userId);
+
+          if (req.file) {
+              // Remove the old image file (if it exists)
+              if (user.image) {
+                  const imagePath = path.join(__dirname, '../../public/uploads/driver', user.image);
+                  if (fs.existsSync(imagePath)) {
+                      // Delete the file
+                      fs.unlinkSync(imagePath);
+                  } else {
+                      console.warn('Old image file not found:', imagePath);
+                  }
+              }
+
+              // Update the user with the new image filename
+              updateData.image = req.file.filename;
+          }
+
+          await User.findByIdAndUpdate(userId, { name, username, phone, email, battery, ...updateData });
+
+          const successMessage = 'Driver Updated Successfully';
+          // res.render('admin/driver/list', { successMessage, users });
+
+          res.redirect(`../../lists?successMessage=${encodeURIComponent(successMessage)}`);
+      });
   } catch (error) {
-    console.error(error);
-    res.status(500).render('error', { message: 'Internal server error' });
+      console.error(error);
+      res.status(500).render('error', { message: 'Internal server error' });
   }
-}
+};
+
 
 exports.changePassword = async (req, res) => {
   const userId = req.params.userId;
