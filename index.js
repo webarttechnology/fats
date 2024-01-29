@@ -37,6 +37,13 @@ app.engine('hbs', exphbs.create({
         eq: function (a, b) {
             return a === b;
         },
+        generateSequence: function (count, options) {
+            let result = '';
+            for (let i = 0; i < (count - 1); i++) {
+              result += options.fn(i + 1);
+            }
+            return result;
+          },
     }
 }).engine);
 

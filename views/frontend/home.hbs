@@ -5,245 +5,73 @@
             		<li id="leftPanel" data-filter-item data-filter-name="leftPanel">
             			<div class="listBlock">
 		                    <ul id="sortable1" class='droptrue'>
-		                        <li id="car" data-filter-item data-filter-name="car">
+
+								{{#each users }}
+		                        <li id="{{ _id }}" data-filter-item data-filter-name="car">
 		                        	<div class="userItem">
 		                        		<i class="bi bi-person"></i>
-		                        		<h3>Jhon Deo</h3>
+		                        		<h3>{{ name }}</h3>
 		                        		<div class="fighterBattre">
-		                        			<span></span>
-		                        			<span></span>
-		                        			<span></span>
-		                        			<span></span>
-		                        			<span></span>
-		                        			<span></span>
-		                        			<span></span>
+											{{#generateSequence battery }}
+		                        			    <span></span>
+											{{/generateSequence }}
 		                        		</div>
 		                        	</div>
 		                        </li>
+								{{/each}}
+
+		                    </ul>
+		                </div>
+		                <span class="moveDrag"><i class="bi bi-arrows-move"></i></span>
+            		</li>
+            	</ul>
+			</div>
+		</div>
+
+		{{#each vehiclesWithUsers }}
+		<div class="row marginBottom">
+			<div class="carListing">
+				<ul id="{{ vehicle._id }}" class='droptrue'>
+            		<li id="leftPanel" data-filter-item data-filter-name="leftPanel">
+            			<div class="listBlock">
+		                    <ul id="{{ vehicle._id }}" class='droptrue'>
 		                        <li id="car" data-filter-item data-filter-name="car">
-		                        	<div class="userItem">
-		                        		<i class="bi bi-person"></i>
-		                        		<h3>Jhon Deo</h3>
-		                        		<div class="fighterBattre">
-		                        			<span></span>
-		                        			<span></span>
-		                        			<span></span>
-		                        			<span></span>
-		                        			<span></span>
-		                        			<span></span>
-		                        			<span></span>
-		                        		</div>
-		                        	</div>
+		                        	<img src="{{ baseUrl }}/uploads/{{ vehicle.image }}">
 		                        </li>
+								{{#if new_users }}
+		                        {{#each new_users}}
+											<li id="{{ _id }}" data-filter-item data-filter-name="car">
+											<div class="userItem">
+												<i class="bi bi-person"></i>
+												<h3>{{ name }}</h3>
+												<div class="fighterBattre">
+													{{#generateSequence battery }}
+														<span></span>
+													{{/generateSequence }}
+												</div>
+											</div>
+		                                   </li>
+                                {{/each}}
+								{{/if}}
+		                    </ul>
+		                </div>
+		                <span class="moveDrag"><i class="bi bi-arrows-move"></i></span>
+            		</li>
+            	</ul>
+			</div>
+		</div>
+		{{/each}}
+
+
+		{{!-- {{#each vehicles }}
+		<div class="row marginBottom">
+			<div class="carListing">
+				<ul id="{{ _id }}" class='droptrue'>
+            		<li id="leftPanel" data-filter-item data-filter-name="leftPanel">
+            			<div class="listBlock">
+		                    <ul id="{{ _id }}" class='droptrue'>
 		                        <li id="car" data-filter-item data-filter-name="car">
-		                        	<div class="userItem">
-		                        		<i class="bi bi-person"></i>
-		                        		<h3>Jhon Deo</h3>
-		                        		<div class="fighterBattre">
-		                        			<span></span>
-		                        			<span></span>
-		                        			<span></span>
-		                        			<span></span>
-		                        			<span></span>
-		                        			<span></span>
-		                        			<span></span>
-		                        		</div>
-		                        	</div>
-		                        </li>
-		                        <li id="car" data-filter-item data-filter-name="car">
-		                        	<div class="userItem">
-		                        		<i class="bi bi-person"></i>
-		                        		<h3>Jhon Deo</h3>
-		                        		<div class="fighterBattre">
-		                        			<span></span>
-		                        			<span></span>
-		                        			<span></span>
-		                        			<span></span>
-		                        			<span></span>
-		                        			<span></span>
-		                        			<span></span>
-		                        		</div>
-		                        	</div>
-		                        </li>
-		                        <li id="car" data-filter-item data-filter-name="car">
-		                        	<div class="userItem">
-		                        		<i class="bi bi-person"></i>
-		                        		<h3>Jhon Deo</h3>
-		                        		<div class="fighterBattre">
-		                        			<span></span>
-		                        			<span></span>
-		                        			<span></span>
-		                        			<span></span>
-		                        			<span></span>
-		                        			<span></span>
-		                        			<span></span>
-		                        		</div>
-		                        	</div>
-		                        </li>
-		                        <li id="car" data-filter-item data-filter-name="car">
-		                        	<div class="userItem">
-		                        		<i class="bi bi-person"></i>
-		                        		<h3>Jhon Deo</h3>
-		                        		<div class="fighterBattre">
-		                        			<span></span>
-		                        			<span></span>
-		                        			<span></span>
-		                        			<span></span>
-		                        			<span></span>
-		                        			<span></span>
-		                        			<span></span>
-		                        		</div>
-		                        	</div>
-		                        </li>
-		                        <li id="car" data-filter-item data-filter-name="car">
-		                        	<div class="userItem">
-		                        		<i class="bi bi-person"></i>
-		                        		<h3>Jhon Deo</h3>
-		                        		<div class="fighterBattre">
-		                        			<span></span>
-		                        			<span></span>
-		                        			<span></span>
-		                        			<span></span>
-		                        			<span></span>
-		                        			<span></span>
-		                        			<span></span>
-		                        		</div>
-		                        	</div>
-		                        </li>
-		                        <li id="car" data-filter-item data-filter-name="car">
-		                        	<div class="userItem">
-		                        		<i class="bi bi-person"></i>
-		                        		<h3>Jhon Deo</h3>
-		                        		<div class="fighterBattre">
-		                        			<span></span>
-		                        			<span></span>
-		                        			<span></span>
-		                        			<span></span>
-		                        			<span></span>
-		                        			<span></span>
-		                        			<span></span>
-		                        		</div>
-		                        	</div>
-		                        </li>
-		                        <li id="car" data-filter-item data-filter-name="car">
-		                        	<div class="userItem">
-		                        		<i class="bi bi-person"></i>
-		                        		<h3>Jhon Deo</h3>
-		                        		<div class="fighterBattre">
-		                        			<span></span>
-		                        			<span></span>
-		                        			<span></span>
-		                        			<span></span>
-		                        			<span></span>
-		                        			<span></span>
-		                        			<span></span>
-		                        		</div>
-		                        	</div>
-		                        </li>
-		                        <li id="car" data-filter-item data-filter-name="car">
-		                        	<div class="userItem">
-		                        		<i class="bi bi-person"></i>
-		                        		<h3>Jhon Deo</h3>
-		                        		<div class="fighterBattre">
-		                        			<span></span>
-		                        			<span></span>
-		                        			<span></span>
-		                        			<span></span>
-		                        			<span></span>
-		                        			<span></span>
-		                        			<span></span>
-		                        		</div>
-		                        	</div>
-		                        </li>
-		                        <li id="car" data-filter-item data-filter-name="car">
-		                        	<div class="userItem">
-		                        		<i class="bi bi-person"></i>
-		                        		<h3>Jhon Deo</h3>
-		                        		<div class="fighterBattre">
-		                        			<span></span>
-		                        			<span></span>
-		                        			<span></span>
-		                        			<span></span>
-		                        			<span></span>
-		                        			<span></span>
-		                        			<span></span>
-		                        		</div>
-		                        	</div>
-		                        </li>
-		                        <li id="car" data-filter-item data-filter-name="car">
-		                        	<div class="userItem">
-		                        		<i class="bi bi-person"></i>
-		                        		<h3>Jhon Deo</h3>
-		                        		<div class="fighterBattre">
-		                        			<span></span>
-		                        			<span></span>
-		                        			<span></span>
-		                        			<span></span>
-		                        			<span></span>
-		                        			<span></span>
-		                        			<span></span>
-		                        		</div>
-		                        	</div>
-		                        </li>
-		                        <li id="car" data-filter-item data-filter-name="car">
-		                        	<div class="userItem">
-		                        		<i class="bi bi-person"></i>
-		                        		<h3>Jhon Deo</h3>
-		                        		<div class="fighterBattre">
-		                        			<span></span>
-		                        			<span></span>
-		                        			<span></span>
-		                        			<span></span>
-		                        			<span></span>
-		                        			<span></span>
-		                        			<span></span>
-		                        		</div>
-		                        	</div>
-		                        </li>
-		                        <li id="car" data-filter-item data-filter-name="car">
-		                        	<div class="userItem">
-		                        		<i class="bi bi-person"></i>
-		                        		<h3>Jhon Deo</h3>
-		                        		<div class="fighterBattre">
-		                        			<span></span>
-		                        			<span></span>
-		                        			<span></span>
-		                        			<span></span>
-		                        			<span></span>
-		                        			<span></span>
-		                        			<span></span>
-		                        		</div>
-		                        	</div>
-		                        </li>
-		                        <li id="car" data-filter-item data-filter-name="car">
-		                        	<div class="userItem">
-		                        		<i class="bi bi-person"></i>
-		                        		<h3>Jhon Deo</h3>
-		                        		<div class="fighterBattre">
-		                        			<span></span>
-		                        			<span></span>
-		                        			<span></span>
-		                        			<span></span>
-		                        			<span></span>
-		                        			<span></span>
-		                        			<span></span>
-		                        		</div>
-		                        	</div>
-		                        </li>
-		                        <li id="car" data-filter-item data-filter-name="car">
-		                        	<div class="userItem">
-		                        		<i class="bi bi-person"></i>
-		                        		<h3>Jhon Deo</h3>
-		                        		<div class="fighterBattre">
-		                        			<span></span>
-		                        			<span></span>
-		                        			<span></span>
-		                        			<span></span>
-		                        			<span></span>
-		                        			<span></span>
-		                        			<span></span>
-		                        		</div>
-		                        	</div>
+		                        	<img src="{{ baseUrl }}/uploads/{{ image }}">
 		                        </li>
 		                        
 		                    </ul>
@@ -253,73 +81,7 @@
             	</ul>
 			</div>
 		</div>
-		<div class="row marginBottom">
-			<div class="carListing">
-				<ul id="sortable1" class='droptrue'>
-            		<li id="leftPanel" data-filter-item data-filter-name="leftPanel">
-            			<div class="listBlock">
-		                    <ul id="sortable1" class='droptrue'>
-		                        <li id="car" data-filter-item data-filter-name="car">
-		                        	<img src="image/car.png">
-		                        </li>
-		                        
-		                    </ul>
-		                </div>
-		                <span class="moveDrag"><i class="bi bi-arrows-move"></i></span>
-            		</li>
-            	</ul>
-			</div>
-		</div>
-		<div class="row marginBottom">
-			<div class="carListing">
-				<ul id="sortable1" class='droptrue'>
-            		<li id="leftPanel" data-filter-item data-filter-name="leftPanel">
-            			<div class="listBlock">
-		                    <ul id="sortable1" class='droptrue'>
-		                        <li id="car" data-filter-item data-filter-name="car">
-		                        	<img src="image/car.png">
-		                        </li>
-		                       
-		                       
-		                    </ul>
-		                </div>
-		                <span class="moveDrag"><i class="bi bi-arrows-move"></i></span>
-            		</li>
-            	</ul>
-			</div>
-		</div>
-		<div class="row marginBottom">
-			<div class="carListing">
-				<ul id="sortable1" class='droptrue'>
-            		<li id="leftPanel" data-filter-item data-filter-name="leftPanel">
-            			<div class="listBlock">
-		                    <ul id="sortable1" class='droptrue'>
-		                        <li id="car" data-filter-item data-filter-name="car">
-		                        	<img src="image/car.png">
-		                        </li>
-		                    </ul>
-		                </div>
-		                <span class="moveDrag"><i class="bi bi-arrows-move"></i></span>
-            		</li>
-            	</ul>
-			</div>
-		</div>
-		<div class="row marginBottom">
-			<div class="carListing">
-				<ul id="sortable1" class='droptrue'>
-            		<li id="leftPanel" data-filter-item data-filter-name="leftPanel">
-            			<div class="listBlock">
-		                    <ul id="sortable1" class='droptrue'>
-		                        <li id="car" data-filter-item data-filter-name="car">
-		                        	<img src="image/amb.png">
-		                        </li>
-		                    </ul>
-		                </div>
-		                <span class="moveDrag"><i class="bi bi-arrows-move"></i></span>
-            		</li>
-            	</ul>
-			</div>
-		</div>
+		{{/each}} --}}
 
 		<div class="row secoundStep">
 			<div class="leftside">
@@ -329,7 +91,7 @@
 			</div>
 			<div class="building">
 				<h4>Roof</h4>
-				<img src="image/house.png">
+				<img src="{{ baseUrl }}/assets/frontend/image/house.png">
 				<h4>Basement</h4>
 			</div>
 			<div class="rightside">
@@ -344,19 +106,19 @@
 				<h4 class="headdingRes">Reserve Vehicle</h4>
 				<ul id="sortable1" class='droptrue careserve'>
 					<li id="car" data-filter-item data-filter-name="car">
-                    	<img src="image/car.png">
+                    	<img src="{{ baseUrl }}/assets/frontend/image/car.png">
                     	<span>Track-2455</span>
                     </li>
                     <li id="car" data-filter-item data-filter-name="car">
-                    	<img src="image/car.png">
+                    	<img src="{{ baseUrl }}/assets/frontend/image/car.png">
                     	<span>Track-2455</span>
                     </li>
                     <li id="car" data-filter-item data-filter-name="car">
-                    	<img src="image/car.png">
+                    	<img src="{{ baseUrl }}/assets/frontend/image/car.png">
                     	<span>Track-2455</span>
                     </li>
                     <li id="car" data-filter-item data-filter-name="car">
-                    	<img src="image/car.png">
+                    	<img src="{{ baseUrl }}/assets/frontend/image/car.png">
                     	<span>Track-2455</span>
                     </li>
 				</ul>
@@ -954,3 +716,34 @@
 		    </div>
 		</div>
 	</section>
+
+<script>
+	function addDriverToWork(draggedDivId, containerDivId) {
+		// Use draggedDivId and containerDivId in your logic
+		console.log('Dragged Div ID:', draggedDivId);
+		console.log('Container Div ID:', containerDivId);
+
+		const data = {
+		draggedDivId: draggedDivId,
+		containerDivId: containerDivId
+		};
+
+		fetch('/assign-task', {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify(data)
+		})
+		.then(response => response.json())
+		.then(result => {
+		// Handle the result from the server if needed
+		console.log('Server response:', result);
+		})
+		.catch(error => {
+		console.error('Error:', error);
+		});
+	}
+
+	
+</script>

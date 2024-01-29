@@ -10,6 +10,7 @@ $('.droptrue').on('click', 'li', function () {
         opacity: 0.6,
         revert: true,
         helper: function (e, item) {
+            // testWork();
             console.log('parent-helper');
             console.log(item);
             if(!item.hasClass('selected'))
@@ -25,6 +26,11 @@ $('.droptrue').on('click', 'li', function () {
         },
         receive: function (e, ui) {
             ui.item.before(ui.item.data('items'));
+
+            // Pass the ID of the container div to the testWork method
+            var draggedDivId = ui.item.attr('id');
+            var containerDivId = $(this).attr('id');
+            addDriverToWork(draggedDivId, containerDivId);
         },
         stop: function (e, ui) {
             ui.item.siblings('.selected').removeClass('hidden');
