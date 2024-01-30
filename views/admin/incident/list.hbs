@@ -1,0 +1,54 @@
+{{>sidebar}}
+
+<main id="main" class="main">
+
+    <div class="pagetitle">
+
+    <h2>All Incidents</h2>
+
+    {{#if errorMessage}}
+        <p class="alert alert-danger alert-dismissible fade show">{{ errorMessage }}</p>
+    {{/if}}
+
+    {{#if successMessage}}
+        <p class="alert alert-success alert-dismissible">{{ successMessage }}</p>
+    {{/if}}
+
+    <div class="container">
+
+    <div class="m-2 text-end"><a href="{{ baseUrl }}/admin/incident/add/page" class="btn btn-primary btn-sm">Add New</a></div>
+    <table class="dataTable">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Title</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Street Address</th>
+                    <th scope="col">Building</th>
+                    <th scope="col">Landmark</th>
+                    <th scope="col">Zip</th>
+                    <th scope="col">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    {{#each incidents}}
+                    <tr>
+                        <th scope="row">{{addOne @index}}</th>
+                        <td>{{ title }}</td>
+                        <td>{{{  description }}}</td>
+                        <td>{{ street_address }}</td>
+                        <td>{{ building }}</td>
+                        <td>{{ landmark }}</td>
+                        <td>{{ zip }}</td>
+                        <td>
+                            <a href="{{ baseUrl }}/admin/incident/update/page/{{ _id }}"><button class="btn btn-primary btn-sm m-1">Edit Address</button></a>
+                            <a href="{{ baseUrl }}/admin/incident/tasks?incidentDetail={{ _id }}" target="_blank"><button class="btn btn-dark btn-sm m-1">Manage Task</button></a>
+                            <a href="#" onclick="return confirm('Are You Sure, You Want To delete this User?')"><button class="btn btn-danger btn-sm m-1">Delete</button></a>
+                        </td>
+                    </tr>
+                  {{/each}}
+                </tbody>
+              </table>
+              </div>
+</div>
+</main>

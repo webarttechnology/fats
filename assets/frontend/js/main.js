@@ -30,7 +30,8 @@ $('.droptrue').on('click', 'li', function () {
             // Pass the ID of the container div to the testWork method
             var draggedDivId = ui.item.attr('id');
             var containerDivId = $(this).attr('id');
-            addDriverToWork(draggedDivId, containerDivId);
+            let incidentId = $('#incidentId').val();
+            addDriverToWork(draggedDivId, containerDivId, incidentId);
         },
         stop: function (e, ui) {
             ui.item.siblings('.selected').removeClass('hidden');
@@ -77,3 +78,32 @@ function updateAdd() {
     $('#add').val(arr.join(','));
 }
 
+/****
+ * Add Task
+*/
+
+function addDriverToWork(draggedDivId, containerDivId, incidentId) {
+    // Use draggedDivId and containerDivId in your logic
+
+    const data = {
+    draggedDivId: draggedDivId,
+    containerDivId: containerDivId,
+    incidentId: incidentId
+    };
+
+    fetch('/assign-task', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(result => {
+    // Handle the result from the server if needed
+    console.log('Server response:', result);
+    })
+    .catch(error => {
+    console.error('Error:', error);
+    });
+}

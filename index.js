@@ -44,6 +44,19 @@ app.engine('hbs', exphbs.create({
             }
             return result;
           },
+          isUserInVehiclesWithUsers: function(userId, vehiclesWithUsers) {
+            if (!Array.isArray(vehiclesWithUsers)) {
+                return false; // or handle it accordingly
+            }
+
+            // const vehiclesArray = Array.isArray(vehiclesWithUsers) ? vehiclesWithUsers : [vehiclesWithUsers];
+
+            const isUserInVehiclesWithUsers = vehiclesWithUsers.some(vehicle => {
+                return vehicle.new_users.some(user => user._id === userId);
+            });
+            return isUserInVehiclesWithUsers;
+        },
+
     }
 }).engine);
 
@@ -54,6 +67,8 @@ app.use(express.urlencoded({ extended: true }));
 
 // Apply the checkAuthMiddleware to the routes you want to protect
 // app.use(checkAuthMiddleware);
+
+
 
 // Define routes
 const userApiRoutes = require('./routes/api/userRoutes');

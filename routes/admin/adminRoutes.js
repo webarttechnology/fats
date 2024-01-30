@@ -5,6 +5,8 @@ const adminFrontendController = require('../../controllers/adminFrontendControll
 const driverManageController = require('../../controllers/admin/driverManageController');
 const fireFighterManageController = require('../../controllers/admin/fireFighterManageController');
 const vehicleManageController = require('../../controllers/vehicle/vehicleManageController');
+const incidentManageController = require('../../controllers/incident/incidentManageController');
+const frontendController = require('../../controllers/frontend/frontendController');
 
 
 // Route to render the login page
@@ -56,6 +58,17 @@ router.post('/vehicle/add/action', vehicleManageController.vehicleAddAction);
 router.get('/vehicle/update/page/:vehicleId', vehicleManageController.vehicleUpdatePage);
 router.post('/vehicle/update/action/:vehicleId', vehicleManageController.vehicleUpdateAction);
 router.get('/vehicle/delete/:vehicleId', vehicleManageController.deleteVehicle);
+
+/**
+ * Incidents
+*/
+
+router.get('/incident/lists', incidentManageController.incidentLists);
+router.get('/incident/add/page', incidentManageController.incidentAddPage);
+router.post('/incident/save', incidentManageController.saveIncident);
+router.get('/incident/tasks', frontendController.homePage);
+router.get('/incident/update/page/:incidentId', incidentManageController.updatePage);
+router.post('/incident/update/action/:incidentId', incidentManageController.incidentUpdateAction);
 
 // Redirect root to the login
 router.get('/', (req, res) => {

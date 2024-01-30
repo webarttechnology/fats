@@ -1,0 +1,76 @@
+{{>sidebar}}
+
+
+<main id="main" class="main">
+
+<h3>Add New Incident</h3>
+
+<!-- Display error message if it exists -->
+{{#if errorMessage}}
+    <p class="alert alert-danger alert-dismissible fade show">{{ errorMessage }}</p>
+{{/if}}
+
+<!-- Display success message if it exists -->
+{{#if successMessage}}
+    <p class="alert alert-success alert-dismissible fade show">{{ successMessage }}</p>
+{{/if}}
+
+<div class="tab-pane p-3 border border-5" id="profile-change-password">
+        <!-- Change Password Form -->
+        <form action="{{ baseUrl }}/admin/incident/save" method="post">
+
+        <div class="row mb-3">
+            <label for="name" class="col-md-4 col-lg-3 col-form-label">Title *</label>
+            <div class="col-md-8 col-lg-9">
+            <input name="title" type="text" class="form-control" id="title" required>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <label for="email" class="col-md-4 col-lg-3 col-form-label">Description *</label>
+            <div class="col-md-8 col-lg-9">
+            <textarea name="description" class="form-control ck-editor" id="description" required></textarea>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <label for="email" class="col-md-4 col-lg-3 col-form-label">Street Address *</label>
+            <div class="col-md-8 col-lg-9">
+            <input type="text" name="street_address" class="form-control" id="street_address" required>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label for="email" class="col-md-4 col-lg-3 col-form-label">Building Name *</label>
+            <div class="col-md-8 col-lg-9">
+            <input type="text" name="building" class="form-control" id="building" required>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label for="email" class="col-md-4 col-lg-3 col-form-label">Landmark *</label>
+            <div class="col-md-8 col-lg-9">
+            <input type="text" name="landmark" class="form-control" id="landmark" required>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label for="email" class="col-md-4 col-lg-3 col-form-label">Zip *</label>
+            <div class="col-md-8 col-lg-9">
+            <input type="text" name="zip" class="form-control" id="zip" required>
+            </div>
+        </div>
+
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary">Next</button>
+        </div>
+        </form><!-- End Change Password Form -->
+
+</div>
+</main>
+
+<!-- CKEditor CDN -->
+<script src="https://cdn.ckeditor.com/4.16.1/standard/ckeditor.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        CKEDITOR.replace('description');
+        CKEDITOR.replace('address');
+    });
+</script>
