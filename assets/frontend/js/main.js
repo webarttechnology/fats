@@ -31,7 +31,10 @@ $('.droptrue').on('click', 'li', function () {
             var draggedDivId = ui.item.attr('id');
             var containerDivId = $(this).attr('id');
             let incidentId = $('#incidentId').val();
-            addDriverToWork(draggedDivId, containerDivId, incidentId);
+            
+            if(draggedDivId != "car" && containerDivId != "sortable1"){
+                addDriverToWork(draggedDivId, containerDivId, incidentId);
+            }
         },
         stop: function (e, ui) {
             ui.item.siblings('.selected').removeClass('hidden');

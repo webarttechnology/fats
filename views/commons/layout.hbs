@@ -31,6 +31,10 @@
             document.write('<link href="{{ baseUrl }}/assets/vendor/simple-datatables/style.css" rel="stylesheet">');
             document.write('<link href="{{ baseUrl }}/assets/css/style.css" rel="stylesheet">');
         } else {
+         
+          // var authToken = '{{ authToken }}';
+          // console.log(authToken);
+
             document.write('<link href="{{ baseUrl }}/assets/frontend/css/style.css" rel="stylesheet">');
             document.write('<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.1.0/css/v4-shims.min.css" integrity="sha512-p++g4gkFY8DBqLItjIfuKJPFvTPqcg2FzOns2BNaltwoCOrXMqRIOqgWqWEvuqsj/3aVdgoEo2Y7X6SomTfUPA==" crossorigin="anonymous" referrerpolicy="no-referrer" />');
             document.write('<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />');
@@ -47,7 +51,7 @@
 
 </head>
 
-<body>
+<body id="app-container">
 
   {{{  body  }}}
 
@@ -76,6 +80,6 @@
 <script src="{{ baseUrl }}/assets/frontend/js/main.js"></script>
 <script src="{{ baseUrl }}/assets/frontend/js/test.js"></script>
 <!--  -->
-
+  
 </body>
 </html>

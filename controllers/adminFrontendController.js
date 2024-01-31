@@ -5,22 +5,8 @@ const jwt = require('jsonwebtoken');
 const crypto = require('crypto'); 
 
 
-/**
- * This Node.js script uses the crypto module to generate a random hexadecimal 
-   string of a specified length.
-*/ 
-
 exports.renderLoginPage = (req, res) => {
     res.render('admin/login');
-};
-
-exports.adminDashboard = async (req, res) => {
-    res.render('admin/dashboard');
-};
-
-exports.userProfile = async (req, res) => {
-    const admin = await Admin.findOne().lean();
-    res.render('admin/user/profile', { admin });
 };
 
 exports.adminLoginAction = async (req, res) => {
@@ -60,6 +46,16 @@ exports.adminLoginAction = async (req, res) => {
         console.error(error);
         res.status(500).json({ message: 'Internal server error' });
        }
+};
+
+exports.adminDashboard = async (req, res) => {
+  res.render('admin/dashboard');
+};
+
+exports.userProfile = async (req, res) => {
+  // console.log(req);
+  const admin = await Admin.findOne().lean();
+  res.render('admin/user/profile', { admin });
 };
 
 /**

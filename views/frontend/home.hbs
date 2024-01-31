@@ -10,6 +10,8 @@
 		                    <ul id="sortable1" class='droptrue'>
 
 								{{#each users }}
+								{{#unless (isUserAssigned _id assignedTaskUsers)}}
+								{{!-- {{#unless (isUserAssigned this._id assignedTaskUsers) }} --}}
 		                        <li id="{{ _id }}" data-filter-item data-filter-name="car">
 		                        	<div class="userItem">
 		                        		<i class="bi bi-person"></i>
@@ -21,6 +23,8 @@
 		                        		</div>
 		                        	</div>
 		                        </li>
+								 {{!-- {{/unless}} --}}
+								 {{/unless}}
 								{{/each}}
 
 		                    </ul>

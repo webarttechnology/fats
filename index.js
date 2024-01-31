@@ -6,6 +6,7 @@ const exphbs = require('express-handlebars'); // express handlebars
 const baseUrlMiddleware = require('./middleware/baseUrl'); // to declare baseUrl for assets
 // const checkAuthMiddleware = require('./middleware/checkAuthMiddleware');
 const handlebarsHelpers = require('./helpers/handlebars-helpers');
+const cookieParser = require('cookie-parser');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -44,17 +45,13 @@ app.engine('hbs', exphbs.create({
             }
             return result;
           },
-          isUserInVehiclesWithUsers: function(userId, vehiclesWithUsers) {
-            if (!Array.isArray(vehiclesWithUsers)) {
+          isUserAssigned: function (userId, assignedUsers) {
+            if (!Array.isArray(assignedUsers)) {
                 return false; // or handle it accordingly
             }
 
-            // const vehiclesArray = Array.isArray(vehiclesWithUsers) ? vehiclesWithUsers : [vehiclesWithUsers];
-
-            const isUserInVehiclesWithUsers = vehiclesWithUsers.some(vehicle => {
-                return vehicle.new_users.some(user => user._id === userId);
-            });
-            return isUserInVehiclesWithUsers;
+            const isUserAssigned = assignedUsers.some((user) => user.userId.toString() === userId.toString());
+            return isUserAssigned;
         },
 
     }
@@ -67,7 +64,6 @@ app.use(express.urlencoded({ extended: true }));
 
 // Apply the checkAuthMiddleware to the routes you want to protect
 // app.use(checkAuthMiddleware);
-
 
 
 // Define routes
@@ -85,6 +81,10 @@ app.use('/admin', adminDisplayRoutes);
 app.use('/assets', express.static(path.join(__dirname, 'assets')));
 
 app.use(baseUrlMiddleware);
+// app.use(checkAuthMiddleware);
+
+// Use cookie-parser middleware
+app.use(cookieParser());
 
 // Start the server
 app.listen(PORT, () => {
