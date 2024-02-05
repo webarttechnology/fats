@@ -22,7 +22,7 @@ router.post('/login/action', adminFrontendController.adminLoginAction);
 */
 
 router.post('/edit/profile', authMiddleware, adminFrontendController.adminEditProfileAction);
-// router.post('/change/password', adminFrontendController.adminChangePasswordAction);
+router.post('/change/password', authMiddleware, adminFrontendController.adminChangePasswordAction);
 
 /**
  * Driver Listing & CRUD Routes

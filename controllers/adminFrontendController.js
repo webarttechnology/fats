@@ -36,9 +36,6 @@ exports.adminLoginAction = async (req, res) => {
             // Store the token securely on the client side
             res.cookie('authToken', token);
 
-            // // Redirect to the dashboard upon successful login
-            // res.redirect('../dashboard?users=' + JSON.stringify(allUsers));
-
             // Render the dashboard and pass the list of users
             res.render('admin/dashboard');
        }
@@ -103,6 +100,27 @@ exports.adminEditProfileAction = async (req, res) => {
       }
 }
 
-// exports.adminChangePasswordAction = async (req, res) => {
-//   console.log("Working...............");
-// }
+exports.adminChangePasswordAction = async (req, res) => {
+  try{
+        const { password, new_password, renew_password } = req.body;
+        const user = await Admin.findOne().lean();
+
+        if (new_password !== renew_password) {
+          return res.render('admin/user/profile', { errorMessage: 'New passwords do not match', admin:user });
+        }
+        
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch) {
+          return res.render('admin/user/profile', { errorMessage: 'Current password is incorrect', admin:user });
+        }
+
+        const hashedPassword = await bcrypt.hash(new_password, 10);
+        user.password = hashedPassword;
+        await user.findOneAndUpdate({ password:hashedPassword });
+
+        return res.render('admin/user/profile', { successMessage: 'Password updated successfully', admin:user });
+  }catch (error) {
+        console.error(error);
+        return res.status(500).render('error', { message: 'Internal server error' });
+      }
+}
