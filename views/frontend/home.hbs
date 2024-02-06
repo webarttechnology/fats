@@ -39,10 +39,10 @@
 		<div class="row marginBottom">
 			<div class="carListing">
 				<ul id="{{ vehicle._id }}" class='droptrue'>
-            		<li id="leftPanel" data-filter-item data-filter-name="leftPanel">
+            		<li id="leftPanel_{{ vehicle._id }}" data-filter-item data-filter-name="leftPanel_{{ vehicle._id }}">
             			<div class="listBlock">
 		                    <ul id="{{ vehicle._id }}" class='droptrue'>
-		                        <li id="car" data-filter-item data-filter-name="car">
+		                        <li id="car_{{ vehicle._id }}" data-filter-item data-filter-name="car">
 		                        	<img src="{{ baseUrl }}/uploads/{{ vehicle.image }}">
 		                        </li>
 								{{#if new_users }}
@@ -70,10 +70,31 @@
 		{{/each}}
 
 
-		<div class="row secoundStep">
+		<div class="row secoundStep" id="secondStep">
 			<div class="leftside">
-				<ul id="sortable1" class='droptrue carfeildList'>
+				<ul id="sortable1" class='droptrue carfeildList leftpanel'>
+					{{#each leftTaskUsers }}
 					
+					<li id="car_{{ vehicle3._id }}" data-filter-item data-filter-name="car">
+		                        	<img src="{{ baseUrl }}/uploads/{{ vehicle3.image }}">
+		                        </li>
+								{{#if new_users2 }}
+		                        {{#each new_users2}}
+											<li id="{{ _id }}" data-filter-item data-filter-name="car">
+											<div class="userItem">
+												<i class="bi bi-person"></i>
+												<h3>{{ name }}</h3>
+												<div class="fighterBattre">
+													{{#generateSequence battery }}
+														<span></span>
+													{{/generateSequence }}
+												</div>
+											</div>
+		                                   </li>
+                                {{/each}}
+								{{/if}}
+								
+					{{/each }}
 				</ul>
 			</div>
 			<div class="building">
@@ -82,8 +103,27 @@
 				<h4>Basement</h4>
 			</div>
 			<div class="rightside">
-				<ul id="sortable1" class='droptrue carfeildList'>
-					
+				<ul id="sortable1" class='droptrue carfeildList rigfhtpanel'>
+					{{#each rightTaskUsers }}
+					<li id="car_{{ vehicle3._id }}" data-filter-item data-filter-name="car">
+		                        	<img src="{{ baseUrl }}/uploads/{{ vehicle3.image }}">
+		                        </li>
+								{{#if new_users2 }}
+		                        {{#each new_users2}}
+											<li id="{{ _id }}" data-filter-item data-filter-name="car">
+											<div class="userItem">
+												<i class="bi bi-person"></i>
+												<h3>{{ name }}</h3>
+												<div class="fighterBattre">
+													{{#generateSequence battery }}
+														<span></span>
+													{{/generateSequence }}
+												</div>
+											</div>
+		                                   </li>
+                                {{/each}}
+								{{/if}}
+					{{/each }}
 				</ul>
 			</div>
 		</div>
@@ -558,3 +598,31 @@
 		    </div>
 		</div>
 	</section>
+
+	<script>
+		// Define your function
+		function driverBatteryLevelChange() {
+
+			fetch('/battery-check')
+			.then(response => {
+				if (!response.ok) {
+					throw new Error('Network response was not ok');
+				}
+				return response.json();
+			})
+			.then(data => {
+				// Handle response data
+				console.log('Response:', data);
+			})
+			.catch(error => {
+				// Handle errors
+				console.error('Error:', error);
+			});
+
+		}
+
+		// Call the function every 5 seconds after the page loads
+		window.onload = function() {
+			  setInterval(driverBatteryLevelChange, 5000); // 5000 milliseconds = 5 seconds
+		};
+	</script>

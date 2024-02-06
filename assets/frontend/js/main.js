@@ -32,15 +32,34 @@ $('.droptrue').on('click', 'li', function () {
             var containerDivId = $(this).attr('id');
             let incidentId = $('#incidentId').val();
             
-            if(draggedDivId != "car" && containerDivId != "sortable1"){
+            if(draggedDivId != "car" && containerDivId != "sortable1" && (!draggedDivId.startsWith('car_'))){
                 addDriverToWork(draggedDivId, containerDivId, incidentId);
+            }
+            if(draggedDivId.startsWith('car_')){
+                var vehicleId = ui.item.attr('id').replace('car_', '');
+                var side = "";
+
+                if($(this).hasClass('leftpanel')) {
+                    side = "left";
+                }else{
+                    side = "right";
+                }
+                
+                addVehicleToWork(vehicleId, side, incidentId);
+
+                // Auto-refresh the page after .5 seconds
+                setTimeout(function() {
+                    location.reload();
+                }, 500);
+
+                return false;
             }
         },
         stop: function (e, ui) {
             ui.item.siblings('.selected').removeClass('hidden');
             $('.selected').removeClass('selected');
         },
-        update: function(){
+        update: function(event, ui){
             updatePostOrder();
             updateAdd();
         }
@@ -110,3 +129,37 @@ function addDriverToWork(draggedDivId, containerDivId, incidentId) {
     console.error('Error:', error);
     });
 }
+
+function addVehicleToWork(vehicleId, side, incidentId){
+    const data = {
+           vehicleId: vehicleId,
+           side: side,
+           incidentId: incidentId,
+        };
+    
+        fetch('/assign-vehicle', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+        })
+        .then(response => response.json())
+        .then(result => {
+        // Handle the result from the server if needed
+        testFunc();
+        // alert("working........");
+        console.log('Server response:', result);
+        })
+        .catch(error => {
+        console.error('Error:', error);
+        });
+}
+
+// function testFunc(){
+//     setInterval(function() {
+//         alert("Test22222222");
+//     }, 2000);
+// }
+
+// testFunc();

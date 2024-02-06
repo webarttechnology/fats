@@ -70,6 +70,7 @@ router.post('/incident/save', authMiddleware, incidentManageController.saveIncid
 router.get('/incident/tasks', authMiddleware, frontendController.homePage);
 router.get('/incident/update/page/:incidentId', authMiddleware, incidentManageController.updatePage);
 router.post('/incident/update/action/:incidentId', authMiddleware, incidentManageController.incidentUpdateAction);
+router.get('/incident/delete:incidentId', authMiddleware, incidentManageController.deleteIncident);
 
 // Redirect root to the login
 router.get('/', (req, res) => {

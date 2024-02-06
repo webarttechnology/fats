@@ -6,7 +6,7 @@ const exphbs = require('express-handlebars'); // express handlebars
 const baseUrlMiddleware = require('./middleware/baseUrl'); // to declare baseUrl for assets
 // const checkAuthMiddleware = require('./middleware/checkAuthMiddleware');
 const handlebarsHelpers = require('./helpers/handlebars-helpers');
-const cookieParser = require('cookie-parser');
+// const cookieParser = require('cookie-parser');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -84,7 +84,7 @@ app.use(baseUrlMiddleware);
 // app.use(checkAuthMiddleware);
 
 // Use cookie-parser middleware
-app.use(cookieParser());
+// app.use(cookieParser());
 
 // Start the server
 app.listen(PORT, () => {

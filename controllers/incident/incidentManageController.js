@@ -72,3 +72,10 @@ exports.incidentUpdateAction = async (req, res) => {
       res.status(500).render('error', { message: 'Internal server error' });
     }
 }
+
+exports.deleteIncident = async (req, res) => {
+  const incidentId = req.params.incidentId;
+  console.log(incidentId);
+
+  // res.render('admin/incident/list', { incidents });
+};
