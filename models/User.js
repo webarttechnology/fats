@@ -26,14 +26,14 @@ const userSchema = new mongoose.Schema({
   phone: {
     type: String,
     required: [true, 'Phone is required'],
-    validate: {
-      validator: (value) => {
-        // Use a regular expression or another method to validate phone format
-        // Example: Check if the value matches a basic phone number format
-        return /^\d{10}$/g.test(value);
-      },
-      message: 'Invalid phone format',
-    },
+    // validate: {
+    //   validator: (value) => {
+    //     // Use a regular expression or another method to validate phone format
+    //     // Example: Check if the value matches a basic phone number format
+    //     return /^\d{10}$/g.test(value);
+    //   },
+    //   message: 'Invalid phone format',
+    // },
   },
   password: {
     type: String,

@@ -6,7 +6,8 @@ const frontendController = require('../../controllers/frontend/frontendControlle
 router.get('/home', frontendController.homePage);
 router.post('/assign-task', frontendController.assignTask);
 router.post('/assign-vehicle', frontendController.assignVehicle);
-router.get('/battery-check', frontendController.batteryCheck);
+router.get('/battery-check/:incidentId', frontendController.batteryCheck);
+router.post('/rehabiliate-user', frontendController.rehabiliateUser);
 
 // Redirect root to the dashboard
 router.get('/', (req, res) => {

@@ -3,6 +3,7 @@ const Vehicle = require('../../models/Vehicle');
 const Task = require('../../models/Task');
 const AssignHome = require('../../models/AssignToHome');
 const Incident = require('../../models/Incident');
+const Rehabiliate = require('../../models/Rehabilitation');
 const session = require('express-session');
 const crypto = require('crypto');
 
@@ -49,7 +50,7 @@ exports.homePage = async (req, res) => {
 
     const userIdsInTasks = tasks.map(task => task.userId);
     // Fetch users excluding those whose IDs are in the tasks
-    const users = await User.find({ _id: { $nin: userIdsInTasks }, battery: { $gt: 0 } }).lean();
+    const users = await User.find({ _id: { $nin: userIdsInTasks }, battery: { $gt: 2 } }).lean();
 
 
     /**
@@ -134,6 +135,83 @@ exports.assignVehicle = async (req, res) => {
 
 
 exports.batteryCheck = async (req, res) => {
-    console.log("Working.......");
-    return true;
+    try {
+        const incidentId = req.params.incidentId;
+        const leftTaskUsers = await getTaskUsersForSide(incidentId, 'left');
+        const rightTaskUsers = await getTaskUsersForSide(incidentId, 'right');
+        
+        // Send data to the client
+        res.status(200).json({ leftTaskUsers, rightTaskUsers });
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
 };
+
+// Helper function to get task users for a specific side
+async function getTaskUsersForSide(incidentId, side) {
+    const vehicles = await AssignHome.find({ incidentId, side }).lean();
+
+    if (!Array.isArray(vehicles) || vehicles.length === 0) {
+        console.log(`No tasks found for incidentId: ${incidentId}`);
+        return [];
+    }
+
+    const vehicleIds = vehicles.map(vehicle => vehicle.vehicleId);
+    const tasks = await Task.find({ vehicleId: { $in: vehicleIds }, incidentId }).populate('userId').lean();
+
+    const tasksByVehicleId = tasks.reduce((acc, task) => {
+        acc[task.vehicleId] = acc[task.vehicleId] || [];
+        acc[task.vehicleId].push(task);
+        return acc;
+    }, {});
+
+    const usersByVehicleId = {};
+        for (const [vehicleId, tasks] of Object.entries(tasksByVehicleId)) {
+            const users = tasks.map(task => task.userId);
+            usersByVehicleId[vehicleId] = users;
+
+            // Fetch battery of each user and reduce if greater than 1
+            for (const user of users) {
+                // Assuming User model has a 'battery' field
+                const userObj = await User.findById(user);
+
+                if (userObj) {
+                    if(userObj.battery > 2){
+                        userObj.battery -= 1;
+                        await userObj.save();
+                    }else{
+                        await userObj.save();
+                    }
+                }
+            }
+        }
+
+        const updatedUsers = await Promise.all(Object.values(usersByVehicleId).flat().map(userId => User.findById(userId)));
+        const taskUsers = Object.values(updatedUsers);
+
+    // For each user, fetch additional data if needed and add it to the user object
+    for (const user of taskUsers) {
+        // Fetch additional data for user.new_users2
+        // Here you should fetch the required data based on your application logic
+        user.new_users2 = []; // Example: Initialize new_users2 array
+    }
+
+    return taskUsers;
+    // return Object.values(updatedUsers);
+}
+
+/**
+ * Rehabiliatete User
+*/
+
+exports.rehabiliateUser = async (req, res) => {
+    const { userId, incidentId } = req.body;
+
+    const userDetails = await User.findOne({ _id:userId }).lean();
+    // if(userDetails.battery <= 2){
+         
+    // }
+    console.log(userDetails.battery);
+    res.status(200).json("Success");
+}

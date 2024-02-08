@@ -1,4 +1,9 @@
 {{!-- {{>sidebar}} --}}
+<style>
+	.low-battery {
+    background-color: red !important; /* Use !important to override other styles if needed */
+}
+</style>
 
 <div class="mainScreen">
 	<input type="hidden" id="incidentId" value="{{ incidentId }}">
@@ -99,7 +104,13 @@
 			</div>
 			<div class="building">
 				<h4>Roof</h4>
+				{{!-- <div class="leftside">
+					<ul id="sortable1" class='droptrue carfeildList leftpanel'></ul>
+				</div> --}}
 				<img src="{{ baseUrl }}/assets/frontend/image/house.png">
+				{{!-- <div class="leftside">
+					<ul id="sortable1" class='droptrue carfeildList leftpanel'></ul>
+				</div> --}}
 				<h4>Basement</h4>
 			</div>
 			<div class="rightside">
@@ -139,19 +150,6 @@
                     	<span>{{ vehicle.modelNo }}</span>
                     </li>
 					{{/each }}
-
-                    {{!-- <li id="car" data-filter-item data-filter-name="car">
-                    	<img src="{{ baseUrl }}/assets/frontend/image/car.png">
-                    	<span>Track-2455</span>
-                    </li>
-                    <li id="car" data-filter-item data-filter-name="car">
-                    	<img src="{{ baseUrl }}/assets/frontend/image/car.png">
-                    	<span>Track-2455</span>
-                    </li>
-                    <li id="car" data-filter-item data-filter-name="car">
-                    	<img src="{{ baseUrl }}/assets/frontend/image/car.png">
-                    	<span>Track-2455</span>
-                    </li> --}}
 				</ul>
 			</div>
 			<div class="carGareg">
@@ -187,7 +185,8 @@
 				<ul id="sortable1" class='droptrue reserveFire rehabition'>
 					<li id="leftPanel" data-filter-item data-filter-name="leftPanel">
             			<div class="listBlock">
-		                    <ul id="sortable1" class='droptrue'>
+		                    {{!-- <ul id="sortable1" class='droptrue'> --}}
+		                    <ul id="rehabilitation" class='droptrue'>
 
                                {{#each rehabilitatedUsers }}
 		                        <li id="car" data-filter-item data-filter-name="car">
@@ -603,7 +602,8 @@
 		// Define your function
 		function driverBatteryLevelChange() {
 
-			fetch('/battery-check')
+            let incidentId = $('#incidentId').val();
+			fetch('/battery-check/'+incidentId)
 			.then(response => {
 				if (!response.ok) {
 					throw new Error('Network response was not ok');
@@ -611,8 +611,8 @@
 				return response.json();
 			})
 			.then(data => {
-				// Handle response data
-				console.log('Response:', data);
+				leftPanelChange(data, data.leftTaskUsers, 'leftpanel');
+                rightPanelChange(data, data.rightTaskUsers, 'rigfhtpanel');
 			})
 			.catch(error => {
 				// Handle errors
@@ -623,6 +623,132 @@
 
 		// Call the function every 5 seconds after the page loads
 		window.onload = function() {
-			  setInterval(driverBatteryLevelChange, 5000); // 5000 milliseconds = 5 seconds
+			  setInterval(driverBatteryLevelChange, 10000); // 5000 milliseconds = 5 seconds
 		};
+
+		/*
+		Left Panel User Details Show Automatically
+		*/
+
+		function leftPanelChange(data, taskUsers, sortableId) {
+			const sortable = $(`.${sortableId}`);
+			
+			const leftTaskUsers = data.leftTaskUsers;
+			// sortable.empty();
+			sortable.children(':not([id^="car_"])').remove();
+
+			// Function to generate battery icons
+			 function generateBatteryIcons(battery) {
+				return Array.from({ length: battery }, () => '<span></span>').join('');
+			}
+
+			const usersWithLowBattery = [];
+
+			// Function to append user item
+			function appendUserItem(user) {
+				let fighterBattreClass = '';
+
+				if (user.battery < 3) {
+					fighterBattreClass = 'low-battery';
+					usersWithLowBattery.push(user.name);
+                    lowBAtteryLevelAlert(usersWithLowBattery);
+				}
+
+				sortable.append(`
+					<li id="${user._id}" data-filter-item data-filter-name="car">
+						<div class="userItem">
+							<i class="bi bi-person"></i>
+							<h3>${user.name}</h3>
+							<div class="fighterBattre ${fighterBattreClass}">
+								${generateBatteryIcons(user.battery)}
+							</div>
+						</div>
+					</li>
+				`);
+			}
+
+			// Iterate over leftTaskUsers and append list items
+			leftTaskUsers.forEach(user => {
+				appendUserItem(user);
+			});
+
+		} 
+
+	/*
+	   Right Panel User Details Show Automatically
+	*/
+
+	 function rightPanelChange(data, taskUsers, sortableId) {
+			const sortable = $(`.${sortableId}`);
+			
+			const leftTaskUsers = data.rightTaskUsers;
+
+			// Clear existing list items
+			// sortable.empty();
+            sortable.children(':not([id^="car_"])').remove();
+
+			// Function to generate battery icons
+			 function generateBatteryIcons(battery) {
+				return Array.from({ length: battery }, () => '<span></span>').join('');
+			}
+
+            const usersWithLowBattery = [];
+
+			// Function to append user item
+			async function appendUserItem(user) {
+				let fighterBattreClass = '';
+				
+				if (user.battery < 3) {
+					fighterBattreClass = 'low-battery';
+					usersWithLowBattery.push(user.name);
+					await delay(500);
+                    lowBAtteryLevelAlert(usersWithLowBattery);
+				}
+				sortable.append(`
+					<li id="${user._id}" data-filter-item data-filter-name="car">
+						<div class="userItem">
+							<i class="bi bi-person"></i>
+							<h3>${user.name}</h3>
+							<div class="fighterBattre ${fighterBattreClass}">
+								${generateBatteryIcons(user.battery)}
+							</div>
+						</div>
+					</li>
+				`);
+
+			}
+
+			// Iterate over leftTaskUsers and append list items
+			leftTaskUsers.forEach(user => {
+				appendUserItem(user);
+			});
+
+		} 
+
+		function delay(ms) {
+          return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+		async function lowBAtteryLevelAlert(name){
+			const names = Object.values(name);
+			console.log(names);
+
+            await delay(200);
+			if(names.length > 1){
+                length = (names.length -1);
+			}else{
+				length = 1;
+			}
+
+             for(let i=0; i<=length; i++){
+			 await delay(500);
+		     await Swal.fire({
+				icon: 'warning',
+				title: 'Battery Level is Low',
+				text: `${names[i]}'s battery level is low.`,
+				confirmButtonText: 'OK',
+				allowOutsideClick: false
+			});
+			}; 
+		}
 	</script>

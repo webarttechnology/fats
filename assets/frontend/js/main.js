@@ -32,7 +32,7 @@ $('.droptrue').on('click', 'li', function () {
             var containerDivId = $(this).attr('id');
             let incidentId = $('#incidentId').val();
             
-            if(draggedDivId != "car" && containerDivId != "sortable1" && (!draggedDivId.startsWith('car_'))){
+            if(draggedDivId != "car" && containerDivId != "sortable1" && containerDivId != "rehabilitation" && (!draggedDivId.startsWith('car_'))){
                 addDriverToWork(draggedDivId, containerDivId, incidentId);
             }
             if(draggedDivId.startsWith('car_')){
@@ -53,6 +53,9 @@ $('.droptrue').on('click', 'li', function () {
                 }, 500);
 
                 return false;
+            }
+            if(containerDivId == "rehabilitation"){
+                shiftToRehabilitationZone(draggedDivId, incidentId);
             }
         },
         stop: function (e, ui) {
@@ -156,10 +159,25 @@ function addVehicleToWork(vehicleId, side, incidentId){
         });
 }
 
-// function testFunc(){
-//     setInterval(function() {
-//         alert("Test22222222");
-//     }, 2000);
-// }
-
-// testFunc();
+function shiftToRehabilitationZone(userId, incidentId){
+    const data = {
+        userId: userId,
+        incidentId: incidentId,
+     };
+ 
+     fetch('/rehabiliate-user', {
+     method: 'POST',
+     headers: {
+         'Content-Type': 'application/json'
+     },
+     body: JSON.stringify(data)
+     })
+     .then(response => response.json())
+     .then(result => {
+     // Handle the result from the server if needed
+     console.log('Server response:', result);
+     })
+     .catch(error => {
+     console.error('Error:', error);
+     });
+}
