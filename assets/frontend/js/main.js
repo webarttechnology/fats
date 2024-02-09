@@ -32,6 +32,7 @@ $('.droptrue').on('click', 'li', function () {
             var containerDivId = $(this).attr('id');
             let incidentId = $('#incidentId').val();
             
+            // alert("Container Div "+containerDivId+" Dragable Div "+draggedDivId);
             if(draggedDivId != "car" && containerDivId != "sortable1" && containerDivId != "rehabilitation" && (!draggedDivId.startsWith('car_'))){
                 addDriverToWork(draggedDivId, containerDivId, incidentId);
             }
@@ -164,7 +165,6 @@ function shiftToRehabilitationZone(userId, incidentId){
         userId: userId,
         incidentId: incidentId,
      };
- 
      fetch('/rehabiliate-user', {
      method: 'POST',
      headers: {
@@ -175,6 +175,10 @@ function shiftToRehabilitationZone(userId, incidentId){
      .then(response => response.json())
      .then(result => {
      // Handle the result from the server if needed
+     setTimeout(function() {
+        location.reload();
+     }, 500);
+
      console.log('Server response:', result);
      })
      .catch(error => {

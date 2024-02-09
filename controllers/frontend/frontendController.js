@@ -3,7 +3,7 @@ const Vehicle = require('../../models/Vehicle');
 const Task = require('../../models/Task');
 const AssignHome = require('../../models/AssignToHome');
 const Incident = require('../../models/Incident');
-const Rehabiliate = require('../../models/Rehabilitation');
+const Rehabilitate = require('../../models/Rehabilitation');
 const session = require('express-session');
 const crypto = require('crypto');
 
@@ -15,19 +15,40 @@ exports.homePage = async (req, res) => {
     const incidentId = req.query.incidentDetail.replace(/^"(.*)"$/, '$1');
 
     // const users = await User.find({ battery: { $gt: 0 } }).lean();
-    const reserveUsers = await User.find({ battery: { $gt: 3 } }).lean();
-    const rehabilitatedUsers = await User.find({
-        battery: {
-            $ne: '10',
-            $lte: '3',
-        }
-    }).lean();
 
+    // const reserveUsers = await User.find({ battery: { $gt: 3 } }).lean();
+    // const rehabilitatedAllUsers = await User.find({
+    //     battery: {
+    //         $ne: '10',
+    //         $lte: '3',
+    //     }
+    // }).lean();
+
+    /**
+     * Get Rehabilitate user Lists 
+    */
+    const rehabilitatedUsers = await Rehabilitate.find({ incidentId }).populate('userId').lean();
+    
+    // Extract user IDs from rehabilitatedUsers
+    const userIds = rehabilitatedUsers.map(user => user.userId);
+    const rehabilitatedAllUsers = await User.find({ _id: { $in: userIds } }).lean();
+    
     // const vehicles = await Vehicle.find().lean();
     const assignedVehicles = await AssignHome.find({ incidentId: incidentId }).distinct('vehicleId');
     const tasks = await Task.find({ incidentId:incidentId }).lean();
     const vehicles = await Vehicle.find({ _id: { $nin: assignedVehicles } }).lean();
     
+
+    /**
+     * Reserve User's Lists
+    */
+
+    const reserveUserIds = tasks.map(user => user.userId);
+
+    // Combine both arrays of user IDs
+    const combinedUserIds = [...userIds, ...reserveUserIds];
+    const reserveUsers = await User.find({ _id: { $nin: combinedUserIds } }).lean();
+
     const vehiclesWithUsers = [];
 
         for (const vehicle of vehicles) {
@@ -60,9 +81,8 @@ exports.homePage = async (req, res) => {
     const rightTaskUsers = await getAssignedUsersForSide('right', incidentId);
 
     const assignedTaskUsers = await Task.find({ incidentId: incidentId }).lean();
-    res.render('frontend/home', { users, assignedTaskUsers, rightTaskUsers, vehicles, tasks, leftTaskUsers, vehiclesWithUsers, reserveUsers, incidentId, rehabilitatedUsers });
+    res.render('frontend/home', { users, assignedTaskUsers, rightTaskUsers, vehicles, tasks, leftTaskUsers, vehiclesWithUsers, reserveUsers, incidentId, rehabilitatedAllUsers });
 };
-
 
 /**
  * Task Assignment to home top, left, right, bottom
@@ -134,19 +154,45 @@ exports.assignVehicle = async (req, res) => {
 };
 
 
+
 exports.batteryCheck = async (req, res) => {
     try {
         const incidentId = req.params.incidentId;
         const leftTaskUsers = await getTaskUsersForSide(incidentId, 'left');
         const rightTaskUsers = await getTaskUsersForSide(incidentId, 'right');
+        const batteryLevel = await increaseBatteryLevel(incidentId);
+        console.log(batteryLevel);
         
         // Send data to the client
-        res.status(200).json({ leftTaskUsers, rightTaskUsers });
+        res.status(200).json({ leftTaskUsers, rightTaskUsers, batteryLevel  });
     } catch (error) {
         console.error('Error:', error);
         res.status(500).json({ error: 'Internal server error' });
     }
 };
+
+/**
+ * 
+ * Increase battery level of user's who are present in rehabilitation zone 
+ */
+
+async function increaseBatteryLevel(incidentId) {
+    const rehabilitateUser = await Rehabilitate.find({ incidentId }).lean(); 
+    const userIds = rehabilitateUser.map(user => user.userId);
+
+    // Iterate over each user ID in the array
+    for (const userId of userIds) {
+        // Find the user by ID
+        const user = await User.findById(userId);
+        
+        if(user.battery < 10){
+            const newBatteryLevel = parseInt(user.battery) + 1;
+            await User.findByIdAndUpdate(userId, { battery: newBatteryLevel });
+        }
+    }
+
+    return true;
+}
 
 // Helper function to get task users for a specific side
 async function getTaskUsersForSide(incidentId, side) {
@@ -202,16 +248,36 @@ async function getTaskUsersForSide(incidentId, side) {
 }
 
 /**
- * Rehabiliatete User
+ * Rehabilitatete User
 */
 
 exports.rehabiliateUser = async (req, res) => {
     const { userId, incidentId } = req.body;
 
     const userDetails = await User.findOne({ _id:userId }).lean();
-    // if(userDetails.battery <= 2){
-         
-    // }
-    console.log(userDetails.battery);
+    if(userDetails.battery <= 2){
+
+         /**
+          * send a driver to rehabilitation zone  
+         */
+
+          const rehabilitate = new Rehabilitate({ userId, incidentId });
+          await rehabilitate.save();
+
+         /**
+          * delete the user from home assign zone 
+         */
+
+          const task = await Task.findOne({ userId, incidentId }).lean();
+          if(task != null){
+              await Task.findByIdAndDelete(task._id);
+          }
+    }
+    
     res.status(200).json("Success");
+}
+
+exports.rehabilitationContent = async (req, res) => {
+    const { incidentId } = req.body;
+    console.log("Working");
 }
