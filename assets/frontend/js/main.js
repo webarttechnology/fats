@@ -1,5 +1,3 @@
-
-
 $(function () {
 $('.droptrue').on('click', 'li', function () {
     $(this).toggleClass('selected');
@@ -30,10 +28,22 @@ $('.droptrue').on('click', 'li', function () {
             // Pass the ID of the container div to the testWork method
             var draggedDivId = ui.item.attr('id');
             var containerDivId = $(this).attr('id');
+            var containerDivId2 = $(this).attr('class');
             let incidentId = $('#incidentId').val();
             
+           
+                if(containerDivId2.split(' ').includes('sortable11')){
+                        let userId = draggedDivId;
+                        assignReserveUserToTask(userId, incidentId, 'left');
+                }
+                if(containerDivId2.split(' ').includes('sortable12')){
+                    let userId = draggedDivId;
+                    assignReserveUserToTask(userId, incidentId, 'right');
+                }
+
+
             // alert("Container Div "+containerDivId+" Dragable Div "+draggedDivId);
-            if(draggedDivId != "car" && containerDivId != "sortable1" && containerDivId != "rehabilitation" && (!draggedDivId.startsWith('car_'))){
+            if(draggedDivId != "car" && containerDivId != "sortable1"  && containerDivId != "sortable11" && containerDivId != "sortable12" && containerDivId != "rehabilitation" && (!draggedDivId.startsWith('car_'))){
                 addDriverToWork(draggedDivId, containerDivId, incidentId);
             }
             if(draggedDivId.startsWith('car_')){
@@ -184,4 +194,31 @@ function shiftToRehabilitationZone(userId, incidentId){
      .catch(error => {
      console.error('Error:', error);
      });
+}
+
+function assignReserveUserToTask(userId, incidentId, side){
+            const data = {
+                userId: userId,
+                incidentId: incidentId,
+                side: side,
+            };
+            fetch('/assign-reserve-user-to-task', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(result => {
+            // Handle the result from the server if needed
+            setTimeout(function() {
+                location.reload();
+            }, 500);
+
+            console.log('Server response:', result);
+            })
+            .catch(error => {
+            console.error('Error:', error);
+            });
 }

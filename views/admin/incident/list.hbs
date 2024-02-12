@@ -43,7 +43,7 @@
                         <td>
                             <a href="{{ baseUrl }}/admin/incident/update/page/{{ _id }}"><button class="btn btn-primary btn-sm m-1">Edit Address</button></a>
                             <a href="{{ baseUrl }}/admin/incident/tasks?incidentDetail={{ _id }}" target="_blank"><button class="btn btn-dark btn-sm m-1">Manage Task</button></a>
-                            <a href="#" onclick="return confirm('Are You Sure, You Want To delete this User?')"><button class="btn btn-danger btn-sm m-1">Delete</button></a>
+                            <a href="{{ baseUrl }}/admin/incident/delete/{{ _id }}" onclick="return confirm('Are You Sure, You Want To delete this User?')"><button class="btn btn-danger btn-sm m-1">Delete</button></a>
                         </td>
                     </tr>
                   {{/each}}

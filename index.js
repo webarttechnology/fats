@@ -60,7 +60,7 @@ app.engine('hbs', exphbs.create({
 app.set('view engine', 'hbs');
 
 // Middleware to parse URL-encoded bodies
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: false }));
 
 // Apply the checkAuthMiddleware to the routes you want to protect
 // app.use(checkAuthMiddleware);

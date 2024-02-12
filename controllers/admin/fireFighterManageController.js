@@ -59,7 +59,18 @@ exports.fireFighterAddAction = async (req, res) => {
         const image = req.file;
     
         // Create a new user
-        const newUser = new User({ name, username, email, phone, password: hashedPassword, role: userRole, battery: 10, image: image.filename });
+        let newUser;
+        // const newUser = new User({ name, username, email, phone, password: hashedPassword, role: userRole, battery:10 });
+        
+        if (image) {
+            // If image is found, save it along with other details
+            newUser = new User({ name, username, email, phone, password: hashedPassword, role: userRole, battery:10, image: image.filename });
+        } else {
+            // If image is not found, save other details without the image
+            newUser = new User({ name, username, email, phone, password: hashedPassword, role: userRole, battery:10 });
+        }
+
+        // const newUser = new User({ name, username, email, phone, password: hashedPassword, role: userRole, battery: 10, image: image.filename });
         await newUser.save();
     
         const successMessage = 'Fire Fighter added successfully';

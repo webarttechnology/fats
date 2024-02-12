@@ -1,4 +1,5 @@
 const Incident = require('../../models/Incident');
+const AssignHome = require('../../models/AssignToHome');
 
 exports.incidentLists = async (req, res) => {
     const incident = await Incident.find().lean();
@@ -75,7 +76,17 @@ exports.incidentUpdateAction = async (req, res) => {
 
 exports.deleteIncident = async (req, res) => {
   const incidentId = req.params.incidentId;
-  console.log(incidentId);
+  
+  const assignHome = await AssignHome.find({ incidentId }).lean();
+  
+  if(assignHome.length > 0){
+    await AssignHome.deleteMany({ incidentId });
+  }
 
-  // res.render('admin/incident/list', { incidents });
+   await Incident.findByIdAndDelete(incidentId);
+  const incident = await Incident.find().lean();
+  const incidents = incident.reverse();
+
+  const successMessage = 'Incident Deleted successfully';
+  res.render('admin/incident/list', { successMessage, incidents });
 };

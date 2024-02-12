@@ -77,7 +77,7 @@
 
 		<div class="row secoundStep" id="secondStep">
 			<div class="leftside">
-				<ul id="sortable1" class='droptrue carfeildList leftpanel'>
+				<ul id="sortable1" class='droptrue carfeildList leftpanel sortable11'>
 					{{#each leftTaskUsers }}
 					
 					<li id="car_{{ vehicle3._id }}" data-filter-item data-filter-name="car">
@@ -114,7 +114,7 @@
 				<h4>Basement</h4>
 			</div>
 			<div class="rightside">
-				<ul id="sortable1" class='droptrue carfeildList rigfhtpanel'>
+				<ul id="sortable1" class='droptrue carfeildList rigfhtpanel sortable12'>
 					{{#each rightTaskUsers }}
 					<li id="car_{{ vehicle3._id }}" data-filter-item data-filter-name="car">
 		                        	<img src="{{ baseUrl }}/uploads/{{ vehicle3.image }}">
@@ -186,7 +186,7 @@
 					<li id="leftPanel" data-filter-item data-filter-name="leftPanel">
             			<div class="listBlock">
 		                    {{!-- <ul id="sortable1" class='droptrue'> --}}
-		                    <ul id="rehabilitation" class='droptrue'>
+		                    <ul id="rehabilitation" class='droptrue rehabilitation1'>
 
                                {{#each rehabilitatedAllUsers }}
 		                        <li id="car" data-filter-item data-filter-name="car">
@@ -773,9 +773,38 @@
 			.then(response => response.json())
 			.then(result => {
 			// Handle the result from the server if needed
-			setTimeout(function() {
+			const sortable = $(`.rehabilitation1`);
+			sortable.empty();
+
+			const users = result.users;
+			users.forEach(user => {
+				displayRehabUsersList(user);
+			});
+
+			// Function to generate battery icons
+			 function generateBatteryIcons(battery) {
+				return Array.from({ length: battery }, () => '<span></span>').join('');
+			}
+
+			function displayRehabUsersList(user){
+				let fighterBattreClass = '';
+                sortable.append(`
+					<li id="${user._id}" data-filter-item data-filter-name="car">
+						<div class="userItem">
+							<i class="bi bi-person"></i>
+							<h3>${user.name}</h3>
+							<div class="fighterBattre ${fighterBattreClass}">
+								${generateBatteryIcons(user.battery)}
+							</div>
+						</div>
+					</li>
+				`);
+			}
+
+			/* setTimeout(function() {
+				// $('.rehabilitation1').html(response);
 				location.reload();
-			}, 500);
+			}, 500); */
 
 			console.log('Server response:', result);
 			})

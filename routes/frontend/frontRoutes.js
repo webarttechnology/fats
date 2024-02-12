@@ -9,6 +9,7 @@ router.post('/assign-vehicle', frontendController.assignVehicle);
 router.get('/battery-check/:incidentId', frontendController.batteryCheck);
 router.post('/rehabiliate-user', frontendController.rehabiliateUser);
 router.post('/rehabilitation-content', frontendController.rehabilitationContent);
+router.post('/assign-reserve-user-to-task', frontendController.assignReserveUserToTask);
 
 // Redirect root to the dashboard
 router.get('/', (req, res) => {

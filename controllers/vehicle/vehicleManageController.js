@@ -1,4 +1,5 @@
 const Vehicle = require('../../models/Vehicle');
+const Task = require('../../models/Task');
 const multer = require('multer');
 const path = require('path');
 
@@ -51,8 +52,14 @@ exports.vehicleAddAction = async (req, res) => {
         // Retrieve the uploaded file information
         const image = req.file;
   
+        let newVehicle;
+        if (image) {
+          newVehicle = new Vehicle({ modelNo, type, image: image.filename });
+        }else{
+          newVehicle = new Vehicle({ modelNo, type });
+        }
+
         // Create a new vehicle
-        const newVehicle = new Vehicle({ modelNo, type, image: image.filename });
         await newVehicle.save();
   
         const successMessage = 'Vehicle Added successfully';
@@ -82,17 +89,24 @@ exports.vehicleUpdatePage = async (req, res) => {
 
 exports.deleteVehicle = async (req, res) => {
   const vehicleId = req.params.vehicleId;
+  let successMessage = "";
+  let errorMessage = "";
 
+  const existVehicle = await Task.findOne({ vehicleId:vehicleId }).lean();
+  
   const vehicle = await Vehicle.findById(vehicleId);
-  await vehicle.deleteOne();
+  if(!existVehicle){
+    await vehicle.deleteOne();
+    successMessage = 'Vehicle Deleted successfully';
+  }else{
+    errorMessage = 'Vehicle is already in Use';
+  }
   
   const allVehicle = await Vehicle.find().lean();
   const vehicles = allVehicle.reverse();
 
-  const successMessage = 'Vehicle Deleted successfully';
-  res.render('admin/vehicle/list', { successMessage, vehicles });
+  res.render('admin/vehicle/list', { successMessage, errorMessage, vehicles });
 }
-
 
 /**
  * Problem to be solved
@@ -101,9 +115,8 @@ exports.deleteVehicle = async (req, res) => {
 exports.vehicleUpdateAction = async (req, res) => {
   try {
       const vehicleId = req.params.vehicleId;
-      const { modelNo, type } = req.body;
-
-      console.log(req);
+      const { modelNo, type, image } = req.body;
+      console.log(req.body);
 
       if (req.file) {
           upload.single('image')(req, res, async function (err) {
@@ -119,7 +132,6 @@ exports.vehicleUpdateAction = async (req, res) => {
               res.redirect('../../lists');
           });
       } else {
-        console.log(modelNo);
           await Vehicle.findByIdAndUpdate(vehicleId, { modelNo, type });
           res.redirect('../../lists');
       }
